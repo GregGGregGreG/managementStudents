@@ -14,6 +14,10 @@ public class Curriculum {
         return getPk().getDiscipline();
     }
 
+    public Curriculum(TermDisciplineID pk) {
+        this.pk = pk;
+    }
+
     public void setDiscipline(Discipline discipline) {
         getPk().setDiscipline(discipline);
     }

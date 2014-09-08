@@ -7,11 +7,8 @@ import javax.persistence.OneToMany;
 import java.util.Collections;
 import java.util.Set;
 
-/**
- * Created by GreG on 03.09.2014.
- */
-@Entity
 
+@Entity
 public class Discipline extends AbstractEntity {
     private String discipline;
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "pk.discipline")
@@ -19,6 +16,10 @@ public class Discipline extends AbstractEntity {
 
     public Discipline() {
         super();
+    }
+
+    public Discipline(String discipline) {
+        this.discipline = discipline;
     }
 
     public Discipline(String discipline, Set<Curriculum> ciCurriculums) {

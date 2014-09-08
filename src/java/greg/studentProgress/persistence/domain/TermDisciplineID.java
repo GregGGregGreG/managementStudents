@@ -14,6 +14,15 @@ public class TermDisciplineID implements Serializable {
     @ManyToOne
     private Discipline discipline;
 
+    public TermDisciplineID() {
+
+    }
+
+    public TermDisciplineID(Term term, Discipline discipline) {
+        this.term = term;
+        this.discipline = discipline;
+    }
+
     public Term getTerm() {
         return term;
     }

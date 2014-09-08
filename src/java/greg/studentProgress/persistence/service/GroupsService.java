@@ -1,5 +1,9 @@
 package greg.studentProgress.persistence.service;
 
+import greg.studentProgress.persistence.domain.Groups;
+import greg.studentProgress.persistence.repository.GroupsRepository;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,19 +13,19 @@ import org.springframework.stereotype.Service;
 
 public class GroupsService {
 
-//    @Autowired
-//    private GroupsRepository repository;
-//
-//    private Logger logger = Logger.getLogger(TermService.class);
+    @Autowired
+    private GroupsRepository repository;
 
-//    public void create(Groups groups) {
-//        repository.saveAndFlush(groups);
-//        logger.debug("Created groups : " + groups);
-//    }
-//
-//    public void remove(Groups groups) {
-//        repository.delete(groups);
-//        logger.debug("Remove groups : " + groups);
-//    }
+    private Logger logger = Logger.getLogger(GroupsService.class);
+
+    public void create(Groups groups) {
+        repository.saveAndFlush(groups);
+        logger.debug("Created groups : " + groups);
+    }
+
+    public void remove(Groups groups) {
+        repository.delete(groups);
+        logger.debug("Remove groups : " + groups);
+    }
 
 }
