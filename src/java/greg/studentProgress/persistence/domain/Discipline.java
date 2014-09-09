@@ -41,11 +41,4 @@ public class Discipline extends AbstractEntity {
         this.Curriculums = ciCurriculums;
     }
 
-    @Override
-    public String toString() {
-        return "Discipline{" +
-                "name='" + name + '\'' +
-                ", Curriculums=" + Curriculums +
-                '}';
-    }
 }

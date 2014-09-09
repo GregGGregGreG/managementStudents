@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -23,11 +24,17 @@ public class CurriculumService {
         repository.saveAndFlush(new Curriculum(new TermDisciplineID(term, discipline)));
     }
 
+    public void remove(List<Curriculum> curriculum) {
+        repository.delete(curriculum);
+        logger.info("Delete curriculum!");
+    }
+
+    public List<Curriculum> findByTerm(int term){
+        return repository.findByTerm(term);
+    }
+
     public Curriculum getCurriculum(int term, String discipline) {
         return repository.findCurriculum(term, discipline);
     }
 
-    public void remove(Curriculum curriculum) {
-        repository.delete(curriculum);
-    }
 }

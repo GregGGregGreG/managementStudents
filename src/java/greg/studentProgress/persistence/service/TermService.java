@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * Created by GreG on 04.09.2014.
- */
 @Service
 public class TermService {
     @Autowired
