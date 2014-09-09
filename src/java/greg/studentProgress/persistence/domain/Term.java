@@ -6,7 +6,9 @@ import java.util.Set;
 
 @Entity
 public class Term extends AbstractEntity {
+    @Column(nullable = false)
     private int numberTerm;
+    @Column(nullable = false)
     private int week;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "pk.term")
     private Set<Curriculum> curriculum = Collections.emptySet();
@@ -42,5 +44,14 @@ public class Term extends AbstractEntity {
 
     public void setCurriculum(Set<Curriculum> curriculum) {
         this.curriculum = curriculum;
+    }
+
+    @Override
+    public String toString() {
+        return "Term{" +
+                "numberTerm=" + numberTerm +
+                ", week=" + week +
+                ", curriculum=" + curriculum +
+                '}';
     }
 }

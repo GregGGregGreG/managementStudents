@@ -1,18 +1,17 @@
 package greg.studentProgress.persistence.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.Collections;
 import java.util.Set;
 
-/**
- * Created by GreG on 04.09.2014.
- */
 @Entity
 public class Groups extends AbstractEntity {
+    @Column(nullable = false)
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "groups")
+    @OneToMany(mappedBy = "groups" ,fetch = FetchType.LAZY)
     private Set<Student> students = Collections.emptySet();
 
     public Groups() {
@@ -39,10 +38,4 @@ public class Groups extends AbstractEntity {
         this.students = students;
     }
 
-    @Override
-    public String toString() {
-        return "Groups{" +
-                "name='" + name + '\'' +
-                '}';
-    }
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface GroupsRepository extends JpaRepository<Groups, Long> {
 
-    @Query("select s from Groups s where s.name=:name")
+    @Query("select g from Groups g where g.name=:name")
     Groups findByName(@Param("name") String name);
 
 }

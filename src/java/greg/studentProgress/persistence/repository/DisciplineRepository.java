@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface DisciplineRepository extends JpaRepository<Discipline, Long> {
 
-    @Query("select d from Discipline d where d.discipline = :name")
+    @Query("select d from Discipline d where d.name = :name")
     Discipline findByName(@Param("name") String name);
 }

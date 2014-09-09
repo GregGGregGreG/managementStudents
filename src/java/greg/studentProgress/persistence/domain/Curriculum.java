@@ -9,13 +9,24 @@ public class Curriculum {
     @EmbeddedId
     private TermDisciplineID pk = new TermDisciplineID();
 
-    @Transient
-    public Discipline getDiscipline() {
-        return getPk().getDiscipline();
+    public Curriculum() {
     }
 
     public Curriculum(TermDisciplineID pk) {
         this.pk = pk;
+    }
+
+    public TermDisciplineID getPk() {
+        return pk;
+    }
+
+    public void setPk(TermDisciplineID pk) {
+        this.pk = pk;
+    }
+
+    @Transient
+    public Discipline getDiscipline() {
+        return getPk().getDiscipline();
     }
 
     public void setDiscipline(Discipline discipline) {
@@ -31,15 +42,10 @@ public class Curriculum {
         getPk().setTerm(term);
     }
 
-    public Curriculum() {
-
-    }
-
-    public TermDisciplineID getPk() {
-        return pk;
-    }
-
-    public void setPk(TermDisciplineID pk) {
-        this.pk = pk;
+    @Override
+    public String toString() {
+        return "Curriculum{" +
+                "pk=" + pk +
+                '}';
     }
 }

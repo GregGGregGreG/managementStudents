@@ -1,29 +1,41 @@
 package greg.studentProgress.persistence.service;
 
-
+import greg.studentProgress.persistence.domain.CurriculumStudentTermID;
+import greg.studentProgress.persistence.domain.StudentProgress;
+import greg.studentProgress.persistence.repository.StudentProgressRepository;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
-/**
- * Created by GreG on 05.09.2014.
- */
 @Service
 public class StudentProgressService {
+    @Autowired
+    private StudentProgressRepository repository;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private CurriculumService curriculumService;
+    private Logger logger = Logger.getLogger(StudentProgressService.class);
 
-//    @Autowired
-//    private StudentProgressRepository repository;
-//
-//    private Logger logger = Logger.getLogger(StudentService.class);
-//
-//    public void create(StudentProgress studentProgress) {
-//        repository.saveAndFlush(studentProgress);
-//        logger.debug("Created studentProgress : " + studentProgress);
-//    }
-//
-//    @Transactional
-//    public void remove(StudentProgress studentProgress) {
-//        repository.delete(studentProgress);
-//        logger.debug("Remove student progress : " + studentProgress);
-//    }
+    public void add(int rating, String name, String discipline, int term) {
+        repository.saveAndFlush(new StudentProgress(rating,
+                new CurriculumStudentTermID(studentService.findByName(name),
+                        curriculumService.getCurriculum(term, discipline))));
+    }
+
+    public void remove(StudentProgress studentProgress) {
+        repository.delete(studentProgress);
+    }
+
+    public List<StudentProgress> findByNameStudent(String name) {
+        return repository.getStudentProgressName(name);
+    }
+
+    public List<StudentProgress> findAll() {
+        return repository.findAll();
+    }
+
 
 }

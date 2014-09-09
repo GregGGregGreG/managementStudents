@@ -1,45 +1,51 @@
 package greg.studentProgress.persistence.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collections;
 import java.util.Set;
 
 
 @Entity
 public class Discipline extends AbstractEntity {
-    private String discipline;
+    @Column(nullable = false)
+    private String name;
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "pk.discipline")
-    private Set<Curriculum> ciCurriculums = Collections.emptySet();
+    private Set<Curriculum> Curriculums = Collections.emptySet();
 
     public Discipline() {
         super();
     }
 
-    public Discipline(String discipline) {
-        this.discipline = discipline;
+    public Discipline(String name) {
+        this.name = name;
     }
 
-    public Discipline(String discipline, Set<Curriculum> ciCurriculums) {
-        this.discipline = discipline;
-        this.ciCurriculums = ciCurriculums;
+    public Discipline(String name, Set<Curriculum> Curriculums) {
+        this.name = name;
+        this.Curriculums = Curriculums;
     }
 
-    public String getDiscipline() {
-        return discipline;
+    public String getName() {
+        return name;
     }
 
-    public void setDiscipline(String discipline) {
-        this.discipline = discipline;
+    public void setName(String discipline) {
+        this.name = discipline;
     }
 
-    public Set<Curriculum> getCiCurriculums() {
-        return ciCurriculums;
+    public Set<Curriculum> getCurriculums() {
+        return Curriculums;
     }
 
-    public void setCiCurriculums(Set<Curriculum> ciCurriculums) {
-        this.ciCurriculums = ciCurriculums;
+    public void setCurriculums(Set<Curriculum> ciCurriculums) {
+        this.Curriculums = ciCurriculums;
+    }
+
+    @Override
+    public String toString() {
+        return "Discipline{" +
+                "name='" + name + '\'' +
+                ", Curriculums=" + Curriculums +
+                '}';
     }
 }

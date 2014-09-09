@@ -39,4 +39,31 @@ public class TermDisciplineID implements Serializable {
         this.discipline = discipline;
     }
 
+    @Override
+    public String toString() {
+        return "TermDisciplineID{" +
+                "term=" + term +
+                ", discipline=" + discipline +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TermDisciplineID that = (TermDisciplineID) o;
+
+        if (discipline != null ? !discipline.equals(that.discipline) : that.discipline != null) return false;
+        if (term != null ? !term.equals(that.term) : that.term != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = term != null ? term.hashCode() : 0;
+        result = 31 * result + (discipline != null ? discipline.hashCode() : 0);
+        return result;
+    }
 }

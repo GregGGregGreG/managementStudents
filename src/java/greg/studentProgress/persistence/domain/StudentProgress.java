@@ -14,6 +14,11 @@ public class StudentProgress {
     public StudentProgress() {
     }
 
+    public StudentProgress(int rating, CurriculumStudentTermID pk) {
+        this.rating = rating;
+        this.pk = pk;
+    }
+
     @Transient
     public Curriculum getCurriculum() {
         return getPk().getCurriculum();
@@ -47,4 +52,6 @@ public class StudentProgress {
     public void setPk(CurriculumStudentTermID pk) {
         this.pk = pk;
     }
+
+
 }

@@ -5,9 +5,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
-/**
- * Created by GreG on 03.09.2014.
- */
+
 @Entity
 public class Student extends AbstractEntity {
     @Column(nullable = false)
@@ -17,9 +15,8 @@ public class Student extends AbstractEntity {
     @Column(nullable = false)
     @Temporal(value = TemporalType.DATE)
     private Date weekOfEntry;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, insertable = false, updatable = false)
+    @ManyToOne()
+    @JoinColumn(nullable = false)
     private Groups groups;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.student", cascade = CascadeType.ALL)
@@ -35,12 +32,6 @@ public class Student extends AbstractEntity {
         this.weekOfEntry = weekOfEntry;
         this.groups = groups;
     }
-
-    public Student(String firstName, String lastName, Date weekOfEntry, Groups groups, Set<StudentProgress> studentProgresses) {
-        this(firstName, lastName, weekOfEntry, groups);
-        this.studentProgresses = studentProgresses;
-    }
-
 
     public String getFirstName() {
         return firstName;
@@ -82,13 +73,5 @@ public class Student extends AbstractEntity {
         this.studentProgresses = studentProgresses;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", weekOfEntry=" + weekOfEntry +
-                ", groups=" + groups +
-                '}';
-    }
+
 }

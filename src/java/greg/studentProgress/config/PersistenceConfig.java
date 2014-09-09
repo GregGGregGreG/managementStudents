@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -49,11 +50,16 @@ public class PersistenceConfig {
         return sessionFactory;
     }
 
-//    @Bean
-//    public LocalSessionFactoryBean sessionFactory() {
-//        return new LocalSessionFactoryBean();
-//
-//    }
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(restDataSource());
+        sessionFactory.setPackagesToScan("greg.studentProgress");
+        sessionFactory.setHibernateProperties(jpaProperty());
+        return sessionFactory;
+
+    }
+
 
     @Bean
     public BasicDataSource restDataSource() {
@@ -68,6 +74,7 @@ public class PersistenceConfig {
     private Properties jpaProperty() {
         Properties hibernateProperties = new Properties();
         hibernateProperties.setProperty("hibernate.hbm2ddl.auto", jDbcHibernateHbm2ddlAuto);
+        hibernateProperties.setProperty("hibernate.dialect", jDbcHibernateDialect);
         return hibernateProperties;
     }
 
