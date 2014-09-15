@@ -11,7 +11,7 @@ INSERT INTO `student_progress`.`student` (`id`, `firstName`,`lastName`,`weekOfEn
 ('4', 'Humberto','Adams','2014-09-01','1'),
 ('5', 'Humberto','Achong','2014-09-01','1');
 
-INSERT INTO `student_progress`.`discipline` (`id`, `discipline`) 
+INSERT INTO `student_progress`.`discipline` (`id`, `name`)
 VALUES 
 ('1', 'Математика'),
 ('2', 'Физика'),
