@@ -1,4 +1,4 @@
-package greg.studentProgress.persistence.service;
+package java.greg.studentProgress.persistence.service;
 
 import greg.studentProgress.config.WebAppConfig;
 import greg.studentProgress.persistence.domain.*;
