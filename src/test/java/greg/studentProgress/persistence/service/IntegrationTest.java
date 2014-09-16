@@ -2,6 +2,7 @@ package java.greg.studentProgress.persistence.service;
 
 import greg.studentProgress.config.WebAppConfig;
 import greg.studentProgress.persistence.domain.*;
+import greg.studentProgress.persistence.service.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.DirtiesContext;
