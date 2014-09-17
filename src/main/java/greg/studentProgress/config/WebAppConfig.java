@@ -15,6 +15,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
@@ -29,7 +31,7 @@ import java.util.Properties;
 @EnableJpaRepositories("greg.studentProgress.persistence.repository")
 @PropertySource({"classpath:persistence-mysql.properties"})
 @ComponentScan("greg.studentProgress")
-public class WebAppConfig {
+public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Value("#{environment['jdbc.driverClassName']}")
     private String jDbcDriverClassName;
     @Value("#{environment['jdbc.url']}")
@@ -99,6 +101,11 @@ public class WebAppConfig {
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);
         return resolver;
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/WEB-INF/pages/bootstrap/css/**").addResourceLocations("/WEB-INF/pages/bootstrap/css/");
     }
 
 }

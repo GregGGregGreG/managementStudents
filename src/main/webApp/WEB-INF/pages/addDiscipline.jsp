@@ -18,33 +18,27 @@
     <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <div class="container">
-    <div class="masthead">
-        <h2 class="muted">Система управления студентами и их успеваемостью</h2>
-        <hr>
+    <div class="row">
+        <jsp:include page="navBar.jsp"/>
+        <div class="col-sm-11  " style="padding: 0px 45px">
+            <h4 class="text-muted">Для того чтобы создать новую дисциплину заполните все поля и нажмите кнопку
+                "Cоздать": </h4>
+
+            <div style="width: 50%">
+                <form:form method="post" action="saveDiscipline" commandName="discipline" role="form">
+                    <div class="form-groups">
+                        <form:label path="name">Название:</form:label>
+                        <form:input path="name" class="form-control" placeholder="Название"/>
+                    </div>
+                    <div class="form-groups" style="padding:15px 0px">
+                        <button type="submit" class="btn btn-success">Создать</button>
+                    </div>
+                </form:form>
+            </div>
+        </div>
     </div>
-
 </div>
-<div style="padding: 0px 200px; width: 184px; top: 0px;">
-    <aside>
-        <form:form action="/" method="get"><input type="submit"
-                                                  class="btn btn-success btn-mini"
-                                                  value="На главную"/>
-        </form:form>
-    </aside>
-</div>
-<div class="container">
-    <h3>Для того чтобы создать новую дисциплину заполните все поля и нажмите кнопку "Cоздать": </h3>
-    <form:form method="post" action="saveDiscipline" commandName="discipline" role="form">
-        <div class="form-groups">
-            <form:label path="name">Название:</form:label>
-            <form:input path="name" class="form-control" placeholder="Название"/>
-        </div>
-        <div class="form-groups" style="padding:15px 0px">
-            <button type="submit" class="btn btn-default">Создать</button>
-        </div>
-    </form:form>
-</div>
-
 </body>
 </html>

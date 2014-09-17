@@ -1,9 +1,13 @@
 package greg.studentProgress.controller;
 
+import greg.studentProgress.dto.CurriculumDto;
 import greg.studentProgress.persistence.service.CurriculumService;
+import greg.studentProgress.persistence.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -14,18 +18,35 @@ public class CurriculumController {
     @Autowired
     private CurriculumService curriculumService;
 
+    @Autowired
+    private TermService termService;
+
+    private int nameTerm = 1;
 
     @RequestMapping(value = "/curriculumList", method = RequestMethod.GET)
     public String listStudent(ModelMap model) {
-//        model.addAttribute("curriculum", curriculumService.findByTerm());
-        return "termList";
+        model.addAttribute("curriculum", termService.findAll());
+        model.addAttribute("term", new CurriculumDto());
+        model.addAttribute("listDiscipline", curriculumService.findByTerm(nameTerm));
+        model.addAttribute("weekTerm", termService.findByName(nameTerm));
+
+        return "curriculumList";
     }
-//    @RequestMapping(value = "/addDiscipline", method = RequestMethod.GET)
-//    public String addStudent(ModelMap model) {
-//        model.addAttribute("discipline", new Discipline());
-//        return "addDiscipline";
-//    }
-//
+
+    @RequestMapping(value = "/showDisciplineInTerm", method = RequestMethod.POST)
+    public String listDiscipline(@ModelAttribute("term") CurriculumDto curriculumDto, BindingResult result) {
+        setNameTerm(Integer.parseInt(curriculumDto.getNameTerm()));
+        return "redirect:/curriculum/curriculumList";
+    }
+
+    public int getNameTerm() {
+        return nameTerm;
+    }
+
+    public void setNameTerm(int nameTerm) {
+        this.nameTerm = nameTerm;
+    }
+    //
 //    @RequestMapping(value = "/saveDiscipline", method = RequestMethod.POST)
 //    public String saveStudent(@ModelAttribute("discipline") Discipline discipline, BindingResult result) {
 //        disciplineService.add(discipline);

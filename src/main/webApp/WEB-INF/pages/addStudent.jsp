@@ -18,21 +18,8 @@
     <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-    <div class="masthead">
-        <h2 class="muted">Система управления студентами и их успеваемостью</h2>
-        <hr>
-    </div>
-
-</div>
-<div style="padding: 0px 200px; width: 184px; top: 0px;">
-    <aside>
-        <form:form action="/" method="get"><input type="submit"
-                                                  class="btn btn-success btn-mini"
-                                                  value="На главную"/>
-        </form:form>
-    </aside>
-</div>
+<jsp:include page="header.jsp"/>
+<jsp:include page="navBar.jsp"/>
 <div class="container">
     <h3>Для создпния студента заполните все поля и нажмите кнопку "Cоздать": </h3>
     <form:form method="post" action="saveStudent" commandName="student" role="form">

@@ -1,13 +1,13 @@
 package greg.studentProgress.dto;
 
 public class CurriculumDto {
-    private String numberTerm;
+    private String nameTerm;
 
-    public String getNumberTerm() {
-        return numberTerm;
+    public String getNameTerm() {
+        return nameTerm;
     }
 
-    public void setNumberTerm(String numberTerm) {
-        this.numberTerm = numberTerm;
+    public void setNameTerm(String nameTerm) {
+        this.nameTerm = nameTerm;
     }
 }

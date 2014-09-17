@@ -14,54 +14,41 @@
     <title>StudentsList</title>
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <div class="container">
-    <div class="masthead">
-        <h2 class="muted">Система управления студентами и их успеваемостью</h2>
-        <hr>
+    <div class="row">
+        <jsp:include page="navBar.jsp"/>
+        <div class="col-sm-8  " style="padding: 0px 45px">
+            <%--<div >--%>
+                <%--<a href="<c:url value="/student/addStudent.html"/>">Add Students</a>--%>
+            <%--</div>--%>
+            <c:if test="${!empty students}">
+                <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Список студентов</h4>
+                <table class="table table-bordered table-striped table-hover table-condensed">
+                    <thead>
+                    <tr >
+                        <th class="text-info" >Фамилия</th>
+                        <th class="text-info">Имя</th>
+                        <th class="text-info">Группа</th>
+                        <th class="text-info">Дата поступления</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${students}" var="student">
+                        <tr>
+                            <td>${student.lastName}</td>
+                            <td>${student.firstName}</td>
+                            <td>${student.groups.name}</td>
+                            <td>${student.weekOfEntry}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+        </div>
     </div>
-
-</div>
-<div class="container">
-    <a href="<c:url value="/student/addStudent.html"/>">Add Students</a>
-</div>
-<div style="padding: 0px 200px; width: 184px; top: 0px;">
-    <aside>
-        <form:form action="/" method="get"><input type="submit"
-                                                  class="btn btn-success btn-mini"
-                                                  value="На главную"/>
-        </form:form>
-    </aside>
-</div>
-
-</div>
-<div class="container">
-    <c:if test="${!empty students}">
-        <h3>Список студентов</h3>
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th>Фамилия</th>
-                <th>Имя</th>
-                <th>Группа</th>
-                <th>Дата поступления</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${students}" var="student">
-                <tr>
-                    <td>${student.lastName}</td>
-                    <td>${student.firstName}</td>
-                    <td>${student.groups.name}</td>
-                    <td>${student.weekOfEntry}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
 </div>
 </body>
 </html>

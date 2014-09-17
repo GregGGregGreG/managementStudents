@@ -9,6 +9,6 @@ public class NavigationController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main() {
-        return "index";
+        return "titlePage";
     }
 }

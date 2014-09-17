@@ -18,44 +18,43 @@
     <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <div class="container">
-    <div class="masthead">
-        <h2 class="muted">Система управления студентами и их успеваемостью</h2>
-        <hr>
+    <div class="row">
+        <jsp:include page="navBar.jsp"/>
+        <div class="col-sm-6  " style="padding: 0px 45px">
+            <c:if test="${!empty disciplines}">
+                <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Cписок дисциплин</h4>
+                <table class="table table-bordered table-striped table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="text-info"></th>
+                        <th class="text-info">Наименование дисциплины</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${disciplines}" var="disciplin">
+                        <tr>
+                            <td><input type="checkbox" id="cb3" name="cb3"/></td>
+                            <td>${disciplin.name}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:if>
+        </div>
+        <div class="col-sm-4" style="margin: 35px;" >
+            <a href="<c:url value="/discipline/addDiscipline.html"/>">
+                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">Создать дисциплину</button>
+            </a>
+            <a href="<c:url value="/discipline/addDiscipline.html"/>">
+                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">Модифцировать выбранную дисциплину</button>
+            </a>
+            <a href="<c:url value="/discipline/addDiscipline.html"/>">
+                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">Удалить выбранную дисциплину</button>
+            </a>
+        </div>
     </div>
-</div>
-<div class="container">
-    <a href="<c:url value="/discipline/addDiscipline.html"/>">Add Discipline</a>
-</div>
-<div style="padding: 0px 200px; width: 184px; top: 0px;">
-    <aside>
-        <form:form action="/" method="get"><input type="submit"
-                                                  class="btn btn-success btn-mini"
-                                                  value="На главную"/>
-        </form:form>
-    </aside>
-</div>
-</div>
-<div class="container">
-    <c:if test="${!empty disciplines}">
-        <h3>Cписок дисциплин</h3>
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th>№</th>
-                <th>Наименование дисциплины</th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${disciplines}" var="disciplin">
-                <tr>
-                    <td>${disciplin.id}</td>
-                    <td>${disciplin.name}</td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-    </c:if>
 </div>
 </body>
 </html>
