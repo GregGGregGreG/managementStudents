@@ -20,24 +20,58 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <div class="col-sm-8  " style="padding: 0px 45px">
-            <%--<div >--%>
-                <%--<a href="<c:url value="/student/addStudent.html"/>">Add Students</a>--%>
-            <%--</div>--%>
-            <c:if test="${!empty students}">
-                <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Список студентов</h4>
-                <table class="table table-bordered table-striped table-hover table-condensed">
-                    <thead>
-                    <tr >
-                        <th class="text-info" >Фамилия</th>
-                        <th class="text-info">Имя</th>
-                        <th class="text-info">Группа</th>
-                        <th class="text-info">Дата поступления</th>
-                    </tr>
-                    </thead>
+        <div class="col-sm-8  " style="padding: 0px 45px 0px">
+            <form:form action="/student/studentsList/studentProgress" method="POST" role="form">
+                <div>
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <a href="<c:url value="/"/>">
+                                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">
+                                    Просмотреть успеваемость выбранных студентов
+                                </button>
+                            </a>
+                            <a href="<c:url value="/"/>">
+                                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">
+                                    Модифцировать
+                                    выбраннго студента
+                                </button>
+                            </a>
+                        </div>
+                        <div class="col-sm-5">
+                            <a href="<c:url value="/student/studentCreating.html"/>">
+                                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">
+                                    Создать студента
+                                </button>
+                            </a><a href="<c:url value="/"/>">
+                            <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">
+                                Удалмть выбарнных студентов
+                            </button>
+                        </a>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div>
+                        <%--@elvariable id="students" type="java.util.List"--%>
+                    <c:if test="${!empty students}">
+                        <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Список студентов</h4>
+                        <table class="table table-bordered table-striped table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th class="text-info">Фамилия</th>
+                                <th class="text-info">Имя</th>
+                                <th class="text-info">Группа</th>
+                                <th class="text-info">Дата поступления</th>
+                            </tr>
+                            </thead>
                     <tbody>
+                        <%--@elvariable id="students" type="java.util.List"--%>
                     <c:forEach items="${students}" var="student">
                         <tr>
+                            <td><input type="checkbox" name="id" value="${student.id}" checked = "checked"/></td>
                             <td>${student.lastName}</td>
                             <td>${student.firstName}</td>
                             <td>${student.groups.name}</td>
@@ -47,6 +81,10 @@
                     </tbody>
                 </table>
             </c:if>
+
+                </div>
+                <button type="submit">Submit</button>
+            </form:form>
         </div>
     </div>
 </div>

@@ -15,9 +15,20 @@
 <body>
 <jsp:include page="header.jsp"/>
 <div class="container">
-    <a href="<c:url value="/student/studentsList.html"/>" >Студенты</a>
-    <a href="<c:url value="/discipline/disciplineList.html"/>">Дисциплины</a>
-    <a href="<c:url value="/curriculum/curriculumList.html"/>">Семестры</a>
+    <div class="row text-center">
+        <div class="col-sm-4">
+            <a href="<c:url value="/student/studentsList.html"/>">Студенты</a>
+
+        </div>
+        <div class="col-sm-4">
+            <a href="<c:url value="/discipline/disciplineList.html"/>">Дисциплины</a>
+
+        </div>
+        <div class="col-sm-4">
+            <a href="<c:url value="/curriculum/curriculumList.html"/>">Семестры</a>
+
+        </div>
+    </div>
 </div>
 </body>
 </html>

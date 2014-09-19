@@ -37,11 +37,12 @@ INSERT INTO `student_progress`.`studentprogress` (`rating`, `curriculum_discipli
 VALUES 
 ('75', '1','1','1'),
 ('75', '3','1','1'),
-('75', '4','2','1');
-
-INSERT INTO `student_progress`.`studentprogress` (`rating`, `curriculum_discipline_id`,`curriculum_term_id`,`student_id`)
-VALUES 
+('75', '4','2','1'),
+('75', '4', '2', '2'),
 ('75', '2','2','1');
+
+
+
 
 
 

@@ -9,7 +9,7 @@ import java.util.Set;
 public class Discipline extends AbstractEntity {
     @Column(nullable = false)
     private String name;
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL ,mappedBy = "pk.discipline")
+    @OneToMany(fetch = FetchType.LAZY,orphanRemoval=true ,mappedBy = "pk.discipline")
     private Set<Curriculum> Curriculums = Collections.emptySet();
 
     public Discipline() {

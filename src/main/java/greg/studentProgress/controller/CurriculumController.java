@@ -29,7 +29,6 @@ public class CurriculumController {
         model.addAttribute("term", new CurriculumDto());
         model.addAttribute("listDiscipline", curriculumService.findByTerm(nameTerm));
         model.addAttribute("weekTerm", termService.findByName(nameTerm));
-
         return "curriculumList";
     }
 

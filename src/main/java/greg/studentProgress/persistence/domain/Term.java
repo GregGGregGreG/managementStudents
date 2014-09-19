@@ -1,6 +1,9 @@
 package greg.studentProgress.persistence.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.util.Collections;
 import java.util.Set;
 
@@ -10,7 +13,7 @@ public class Term extends AbstractEntity {
     private int numberTerm;
     @Column(nullable = false)
     private int week;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "pk.term")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "pk.term")
     private Set<Curriculum> curriculum = Collections.emptySet();
 
     public Term() {

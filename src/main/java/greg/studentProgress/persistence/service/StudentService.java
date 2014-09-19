@@ -24,8 +24,8 @@ public class StudentService {
         repository.delete(student);
     }
 
-    public void findById(Long id) {
-        repository.findById(id);
+    public Student findById(Long id) {
+        return repository.findById(id);
     }
 
     public Student findByName(String name) {
