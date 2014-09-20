@@ -22,8 +22,9 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <div class="col-sm-6  " style="padding: 0px 45px">
-            <c:if test="${!empty disciplines}">
+        <form:form action="disciplineAction" method="post" role="form">
+            <div class="col-sm-6  " style="padding: 0px 45px">
+                <c:if test="${!empty disciplines}">
                 <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Cписок дисциплин</h4>
                 <table class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
@@ -33,10 +34,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${disciplines}" var="disciplin">
+                    <c:forEach items="${disciplines}" var="discipline">
                         <tr>
-                            <td><input type="checkbox"/></td>
-                            <td>${disciplin.name}</td>
+                            <td><input type="checkbox" name="id" value="${discipline.id}"/></td>
+                            <td>${discipline.name}</td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -51,9 +52,12 @@
                 <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">Модифцировать выбранную дисциплину</button>
             </a>
             <a href="<c:url value="/discipline/addDiscipline.html"/>">
-                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">Удалить выбранную дисциплину</button>
+                <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="remove"
+                        style="margin: 10px">Удалить выбранную дисциплину
+                </button>
             </a>
         </div>
+        </form:form>
     </div>
 </div>
 </body>

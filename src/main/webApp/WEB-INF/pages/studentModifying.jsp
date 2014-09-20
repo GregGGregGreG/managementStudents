@@ -16,26 +16,30 @@
     <div class="row">
         <jsp:include page="navBar.jsp"/>
         <div class="col-sm-8 " style="padding: 0px 45px">
-            <h4 class="text-muted">Для создпния студента заполните все поля и нажмите кнопку "Cоздать" </h4>
-            <form:form method="post" action="saveStudent" commandName="student" role="form">
+            <h4 class="text-muted">Для модификации студента заполните все поля и нажмите кнопку "Применить" </h4>
+            <form:form method="post" action="saveStudentModifying" commandName="student" role="form">
                 <div class="form-groups">
                     <form:label path="firstName">Фамилия:</form:label>
-                    <form:input path="firstName" class="form-control" placeholder="Фамилия" value=""/>
+                    <form:input path="firstName" class="form-control" placeholder="Фамилия"
+                                value="${modifyingStudent.firstName}"/>
                 </div>
                 <div class="form-groups">
                     <form:label path="lastName">Имя:</form:label>
-                    <form:input path="lastName" class="form-control" placeholder="Имя"/>
+                    <form:input path="lastName" class="form-control" placeholder="Имя"
+                                value="${modifyingStudent.lastName}"/>
                 </div>
                 <div class="form-groups">
                     <form:label path="groups">Группа:</form:label>
-                    <form:input path="groups" class="form-control" placeholder="Группа"/>
+                    <form:input path="groups" class="form-control" placeholder="Группа"
+                                value="${modifyingStudent.groups.name}"/>
                 </div>
                 <div class="form-groups">
                     <form:label path="weekOfEntry">Дата поступления:</form:label>
-                    <form:input path="weekOfEntry" class="form-control" placeholder="Дата поступления"/>
+                    <form:input path="weekOfEntry" class="form-control" placeholder="Дата поступления"
+                                value="${modifyingStudent.weekOfEntry}"/>
                 </div>
                 <div class="form-groups" style="padding:15px 0px">
-                    <button type="submit" class="btn btn-success">Создать</button>
+                    <button type="submit" class="btn btn-success">Применить</button>
                 </div>
             </form:form>
         </div>
@@ -43,3 +47,4 @@
 </div>
 </body>
 </html>
+

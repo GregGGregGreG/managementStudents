@@ -32,9 +32,10 @@
                     </div>
                 </form:form>
                 <div style="padding: 10px 45px">
-                    <h4 class="text-muted " style="padding: 5px 0px">Длительность семестра ${weekTerm.week} недель</h4>
-                    <h4 class="text-muted" style="padding: 5px 0px">Список дисциплин семестра </h4>
                     <c:if test="${!empty listDiscipline}">
+                        <h4 class="text-muted " style="padding: 5px 0px">Длительность семестра ${weekTerm.week}
+                            недель</h4>
+                        <h4 class="text-muted" style="padding: 5px 0px">Список дисциплин семестра </h4>
                         <table class="table table-bordered table-striped table-hover table-condensed">
                             <thead>
                             <tr>

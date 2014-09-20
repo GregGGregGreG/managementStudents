@@ -26,8 +26,8 @@ public class StudentProgressService {
         repository.delete(studentProgress);
     }
 
-    public List<StudentProgress> findByNameStudent(String name) {
-        return repository.getStudentProgressName(name);
+    public List<StudentProgress> getDisciplineForStudentInTerm(long studentId,long termId) {
+        return repository.getDisciplineForStudentInTerm(studentId,termId);
     }
 
     public List<StudentProgress> findAll() {

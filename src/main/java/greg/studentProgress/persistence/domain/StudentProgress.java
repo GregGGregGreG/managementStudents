@@ -50,5 +50,23 @@ public class StudentProgress {
         this.pk = pk;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        StudentProgress that = (StudentProgress) o;
+
+        if (rating != that.rating) return false;
+        if (pk != null ? !pk.equals(that.pk) : that.pk != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = rating;
+        result = 31 * result + (pk != null ? pk.hashCode() : 0);
+        return result;
+    }
 }

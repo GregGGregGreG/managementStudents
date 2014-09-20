@@ -30,4 +30,9 @@ public class DisciplineService {
     public Discipline findByName(String name) {
         return repository.findByName(name);
     }
+
+    public Discipline findById(long id) {
+        return repository.findById(id);
+    }
+
 }

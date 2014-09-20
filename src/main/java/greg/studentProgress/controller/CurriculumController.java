@@ -29,22 +29,17 @@ public class CurriculumController {
         model.addAttribute("term", new CurriculumDto());
         model.addAttribute("listDiscipline", curriculumService.findByTerm(nameTerm));
         model.addAttribute("weekTerm", termService.findByName(nameTerm));
+        nameTerm = 0;
         return "curriculumList";
     }
 
     @RequestMapping(value = "/showDisciplineInTerm", method = RequestMethod.POST)
     public String listDiscipline(@ModelAttribute("term") CurriculumDto curriculumDto, BindingResult result) {
-        setNameTerm(Integer.parseInt(curriculumDto.getNameTerm()));
+        nameTerm = Integer.parseInt(curriculumDto.getNameTerm());
         return "redirect:/curriculum/curriculumList";
     }
 
-    public int getNameTerm() {
-        return nameTerm;
-    }
 
-    public void setNameTerm(int nameTerm) {
-        this.nameTerm = nameTerm;
-    }
     //
 //    @RequestMapping(value = "/saveDiscipline", method = RequestMethod.POST)
 //    public String saveStudent(@ModelAttribute("discipline") Discipline discipline, BindingResult result) {

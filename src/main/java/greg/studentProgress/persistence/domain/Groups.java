@@ -11,7 +11,7 @@ import java.util.Set;
 public class Groups extends AbstractEntity {
     @Column(nullable = false)
     private String name;
-    @OneToMany(mappedBy = "groups" ,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "groups", fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Student> students = Collections.emptySet();
 
     public Groups() {

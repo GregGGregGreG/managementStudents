@@ -26,13 +26,16 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <a href="<c:url value="/"/>">
-                                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">
+                                <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
+                                        style="margin: 10px"
+                                        value="studentListProgress">
                                     Просмотреть успеваемость выбранных студентов
                                 </button>
                             </a>
                             <a href="<c:url value="/"/>">
-                                <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">
-                                    Модифцировать
+                                <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
+                                        value="modifying" style="margin: 10px">
+                                Модифцировать
                                     выбраннго студента
                                 </button>
                             </a>
@@ -43,8 +46,10 @@
                                     Создать студента
                                 </button>
                             </a><a href="<c:url value="/"/>">
-                            <button class="btn btn-mini btn-block btn-primary" type="button" style="margin: 10px">
-                                Удалмть выбарнных студентов
+                            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
+                                    value="remove"
+                                    style="margin: 10px">
+                                Удалить выбарнных студентов
                             </button>
                         </a>
                         </div>
@@ -71,7 +76,7 @@
                         <%--@elvariable id="students" type="java.util.List"--%>
                     <c:forEach items="${students}" var="student">
                         <tr>
-                            <td><input type="checkbox" name="id" value="${student.id}" checked = "checked"/></td>
+                            <td><input type="checkbox" name="id" value="${student.id}"/></td>
                             <td>${student.lastName}</td>
                             <td>${student.firstName}</td>
                             <td>${student.groups.name}</td>
@@ -83,7 +88,7 @@
             </c:if>
 
                 </div>
-                <button type="submit">Submit</button>
+
             </form:form>
         </div>
     </div>

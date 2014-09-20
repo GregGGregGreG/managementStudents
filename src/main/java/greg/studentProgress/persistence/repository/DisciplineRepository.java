@@ -9,4 +9,9 @@ public interface DisciplineRepository extends JpaRepository<Discipline, Long> {
 
     @Query("select d from Discipline d where d.name = :name")
     Discipline findByName(@Param("name") String name);
+
+    @Query("select d from Discipline d where d.id = :id")
+    Discipline findById(@Param("id") long id);
+
+
 }

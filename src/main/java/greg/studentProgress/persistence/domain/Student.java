@@ -19,7 +19,7 @@ public class Student extends AbstractEntity {
     @JoinColumn(nullable = false)
     private Groups groups;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.student", orphanRemoval=true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.student", orphanRemoval = true)
     private Set<StudentProgress> studentProgresses = Collections.emptySet();
 
     public Student() {
@@ -72,6 +72,5 @@ public class Student extends AbstractEntity {
     public void setStudentProgresses(Set<StudentProgress> studentProgresses) {
         this.studentProgresses = studentProgresses;
     }
-
 
 }

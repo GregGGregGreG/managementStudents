@@ -14,35 +14,78 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-            <div>
-                <c:if test="${!empty students}">
-                    <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Список студентов</h4>
-                    <table class="table table-bordered table-striped table-hover table-condensed">
-                        <thead>
-                        <tr >
-                            <th></th>
-                            <th class="text-info" >Фамилия</th>
-                            <th class="text-info">Имя</th>
-                            <th class="text-info">Группа</th>
-                            <th class="text-info">Дата поступления</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${students}" var="student">
+        <div class="col-sm-10" style="padding: 0px 45px">
+            <c:if test="${!empty modifyingStudent}">
+                <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Отображена успеваемость для следующего
+                    студента:</h4>
+                <table class="table table-bordered table-striped table-hover table-condensed">
+                    <thead>
+                    <tr>
+                        <th class="text-info">Фамилия</th>
+                        <th class="text-info">Имя</th>
+                        <th class="text-info">Группа</th>
+                        <th class="text-info">Дата поступления</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>${modifyingStudent.lastName}</td>
+                        <td>${modifyingStudent.firstName}</td>
+                        <td>${modifyingStudent.groups.name}</td>
+                        <td>${modifyingStudent.weekOfEntry}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </c:if>
+            <div class="row" style="padding: 20px 20px 0px 0px">
+                <div class="col-sm-5 ">
+                    <c:if test="${!empty studentProgressList}">
+                        <table class="table table-bordered table-striped table-hover table-condensed">
+                            <thead>
                             <tr>
-                                <td><input type="checkbox"/></td>
-                                <td>${student.lastName}</td>
-                                <td>${student.firstName}</td>
-                                <td>${student.groups.name}</td>
-                                <td>${student.weekOfEntry}</td>
+                                <th class="text-info">Дисциплина</th>
+                                <th class="text-info">Оценка</th>
                             </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </c:if>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${studentProgressList}" var="studentProgress">
+                                <tr>
+                                    <td>${studentProgress.pk.curriculum.pk.discipline.name}</td>
+                                    <td>${studentProgress.rating}</td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:if>
+                </div>
+                <div class="col-sm-6 ">
+                    <div>
+                        <form:form method="post" action="studentListProgress/showDisciplineInTerm" role="form"
+                                   modelAttribute="term">
+                            <div class=" form-horizontal">
+                                <label for="term" class="col-sm-5 control-label ">Выбрать семестр:</label>
+
+                                <div class="col-sm-3">
+                                    <form:select id="term" name="term" class="form-control" path="nameTerm">
+                                        <c:forEach items="${termList}" var="term">
+                                            <option>${term.numberTerm}</option>
+                                        </c:forEach>
+                                    </form:select>
+                                </div>
+                                <button type="submit" class="btn btn-success">Выбрать</button>
+                            </div>
+                        </form:form>
+                    </div>
+                    <div style="padding: 0px 30px">
+                        <c:if test="${!empty studentProgressList }">
+                            <h4 class="text-muted">Средняя оценка за симестр ${averageRating}</h4>
+                        </c:if>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 </body>
 </html>

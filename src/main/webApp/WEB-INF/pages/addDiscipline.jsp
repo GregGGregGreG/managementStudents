@@ -29,6 +29,7 @@
             <div style="width: 50%">
                 <form:form method="post" action="saveDiscipline" commandName="discipline" role="form">
                     <div class="form-groups">
+                        <%--<c:if test="disci[line"--%>
                         <form:label path="name">Название:</form:label>
                         <form:input path="name" class="form-control" placeholder="Название"/>
                     </div>
