@@ -13,10 +13,10 @@ INSERT INTO `student_progress`.`student` (`id`, `firstName`,`lastName`,`weekOfEn
 
 INSERT INTO `student_progress`.`discipline` (`id`, `name`)
 VALUES 
-('1', 'Математика'),
-('2', 'Физика'),
-('3', 'История'),
-('4', 'Физра');
+('1', 'Mathematics'),
+('2', 'Physics'),
+('3', 'History'),
+('4', 'Physical Education');
 
 
 INSERT INTO `student_progress`.`term` (`id`, `numberTerm`,`week`) 

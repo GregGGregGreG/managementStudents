@@ -23,13 +23,14 @@
     <div class="row">
         <jsp:include page="navBar.jsp"/>
         <div class="col-sm-11  " style="padding: 0px 45px">
-            <h4 class="text-muted">Для того чтобы создать новую дисциплину заполните все поля и нажмите кнопку
-                "Cоздать": </h4>
+            <h4 class="text-muted">${mesage}</h4>
 
             <div style="width: 50%">
                 <form:form method="post" action="saveDiscipline" commandName="discipline" role="form">
+                    <div style="display: none">
+                        <form:input path="id" value="${modifyingStudent.id}"/>
+                    </div>
                     <div class="form-groups">
-                        <%--<c:if test="disci[line"--%>
                         <form:label path="name">Название:</form:label>
                         <form:input path="name" class="form-control" placeholder="Название"/>
                     </div>

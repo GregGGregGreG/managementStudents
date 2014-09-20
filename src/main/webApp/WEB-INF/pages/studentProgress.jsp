@@ -60,13 +60,16 @@
                 </div>
                 <div class="col-sm-6 ">
                     <div>
-                        <form:form method="post" action="studentListProgress/showDisciplineInTerm" role="form"
-                                   modelAttribute="term">
+                        <form:form method="get" action="/student/studentProgress" role="form"
+                                   modelAttribute="SPDto">
                             <div class=" form-horizontal">
                                 <label for="term" class="col-sm-5 control-label ">Выбрать семестр:</label>
 
                                 <div class="col-sm-3">
-                                    <form:select id="term" name="term" class="form-control" path="nameTerm">
+                                    <div style="display: none">
+                                        <form:input path="studentId" value="${modifyingStudent.id}"/>
+                                    </div>
+                                    <form:select id="term" name="term" class="form-control" path="termId">
                                         <c:forEach items="${termList}" var="term">
                                             <option>${term.numberTerm}</option>
                                         </c:forEach>

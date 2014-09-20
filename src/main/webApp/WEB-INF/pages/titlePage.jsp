@@ -16,7 +16,7 @@
 <jsp:include page="header.jsp"/>
 <div class="container">
     <div class="row text-center">
-        <div class="col-sm-4">
+    <div class="col-sm-4">
             <a href="<c:url value="/student/studentsList.html"/>">Студенты</a>
 
         </div>

@@ -1,7 +1,7 @@
 package greg.studentProgress.controller;
 
-import greg.studentProgress.dto.CurriculumDto;
 import greg.studentProgress.dto.StudentDto;
+import greg.studentProgress.dto.StudentProgressDto;
 import greg.studentProgress.persistence.domain.Groups;
 import greg.studentProgress.persistence.domain.Student;
 import greg.studentProgress.persistence.domain.StudentProgress;
@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
@@ -33,60 +34,56 @@ public class StudentController {
     private StudentProgressService studentProgressService;
     @Autowired
     private TermService termService;
-    private Student modifyingStudent;
-    private long termId = 1L;
-
 
     @RequestMapping(value = "/studentsList", method = RequestMethod.GET)
-    public String listStudent(ModelMap model) {
-        model.addAttribute("students", studentService.findAll());
-        modifyingStudent = null;
-        return "studentsList";
+    public ModelAndView studentList() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("studentsList");
+        modelAndView.addObject("students", studentService.findAll());
+        return modelAndView;
     }
 
-    @RequestMapping(value = "/studentsList/studentProgress", method = RequestMethod.POST)
-    public String studentProgressList(@RequestParam(value = "id", required = false) long[] id,
-                                      @RequestParam String action,
-                                      RedirectAttributes redirectAttributes) {
-
-        if (action.equals("remove")) {
-            if (!(id == null)) {
-                for (long currID : id) {
-                    Student student = studentService.findById(currID);
-                    studentService.remove(student);
-                }
+    @RequestMapping(value = "/handlerListsStudents", method = RequestMethod.POST)
+    public String handlerListsStudents(@RequestParam(value = "id", required = false) long[] id,
+                                       @RequestParam String action,
+                                       @ModelAttribute Student modifyingStudent,
+                                       RedirectAttributes redirectAttributes) {
+        if (!(id == null)) {
+            switch (action) {
+                case "remove":
+                    for (long currID : id) {
+                        studentService.remove(studentService.findById(currID));
+                    }
+                    break;
+                case "modifying":
+                    for (long currID : id) {
+                        String massage = "Для модификации студента заполните все поля и нажмите кнопку  \"Применить\" ";
+                        String nameButton = "Применить";
+                        modifyingStudent = (studentService.findById(currID));
+                        redirectAttributes.addFlashAttribute("student", modifyingStudent);
+                        redirectAttributes.addFlashAttribute("modifyingStudent", modifyingStudent);
+                        redirectAttributes.addFlashAttribute("massage", massage);
+                        redirectAttributes.addFlashAttribute("nameButton", nameButton);
+                    }
+                    return "redirect:/student/studentModifying";
+                case "studentListProgress":
+                    for (long currID : id) {
+                        redirectAttributes.addFlashAttribute("modifyingStudent", studentService.findById(currID));
+                    }
+                    return "redirect:/student/studentProgress";
             }
-        } else if (action.equals("modifying")) {
-            if (!(id == null)) {
-                for (long currID : id) {
-                    modifyingStudent = (studentService.findById(currID));
-                    redirectAttributes.addFlashAttribute("modifyingStudent", modifyingStudent);
-                }
-                return "redirect:/student/studentModifying";
-            }
-        } else if (action.equals("studentListProgress")) {
-            if (!(id == null)) {
-                for (long currID : id) {
-                    modifyingStudent = (studentService.findById(currID));
-                }
-                return "redirect:/student/studentListProgress";
-            }
+        }
+        if (action.equals("creating")) {
+            return "redirect:/student/studentCreating";
         }
         return "redirect:/student/studentsList";
     }
 
-
-    @RequestMapping(value = "/studentCreating", method = RequestMethod.GET)
-    public String addStudent(ModelMap model) {
-        model.addAttribute("student", new StudentDto());
-        return "studentCreating";
-
-    }
-
-    @RequestMapping(value = "/studentListProgress", method = RequestMethod.GET)
-    public String studentListProgress(ModelMap model) {
-        long studentId = modifyingStudent.getId();
-
+    @RequestMapping(value = "/studentProgress", method = RequestMethod.GET)
+    public String studentProgress(ModelMap model,
+                                  @ModelAttribute StudentProgressDto dto) {
+        long studentId = dto.getStudentId();
+        long termId = dto.getTermId();
 
         List<StudentProgress> studentProgressList = studentProgressService.getDisciplineForStudentInTerm(studentId, termId);
 
@@ -98,65 +95,49 @@ public class StudentController {
             allRating += progress.getRating();
         }
 
-
         double averageRating = allRating / numberOfRatings;
         if (averageRating < 0) averageRating = 0;
 
-        termId = 1;
-
-        model.addAttribute("term", new CurriculumDto());
+        model.addAttribute("SPDto", new StudentProgressDto());
         model.addAttribute("termList", termService.findAll());
         model.addAttribute("averageRating", averageRating);
         model.addAttribute("studentProgressList", studentProgressList);
-        model.addAttribute("modifyingStudent", modifyingStudent);
         return "studentProgress";
-
     }
 
-    @RequestMapping(value = "/studentListProgress/showDisciplineInTerm", method = RequestMethod.POST)
-    public String listDiscipline(@ModelAttribute("term") CurriculumDto curriculumDto, BindingResult result) {
-        termId = Long.parseLong((curriculumDto.getNameTerm()));
-        return "redirect:/student/studentListProgress";
+    @RequestMapping(value = "/studentCreating", method = RequestMethod.GET)
+    public String addStudent(ModelMap model) {
+        String massage = "Для создпния студента заполните все поля и нажмите кнопку \"Cоздать\"";
+        String nameButton = "Создать";
+        model.addAttribute("student", new StudentDto());
+        model.addAttribute("modifyingStudent", new Student());
+        model.addAttribute("massage", massage);
+        model.addAttribute("nameButton", nameButton);
+        return "studentCreating";
     }
-
-
     @RequestMapping(value = "/studentModifying", method = RequestMethod.GET)
     public String modifyingStudent(ModelMap model) {
-        model.addAttribute("student", new StudentDto());
-        return "studentModifying";
+        return "studentCreating";
     }
 
-    @RequestMapping(value = "/saveStudentModifying", method = RequestMethod.POST)
-    public String modifyingStudentSave(@ModelAttribute("student") StudentDto studentDto, BindingResult
-            result) throws ParseException {
-        modifyingStudent.setFirstName(studentDto.getFirstName());
-        modifyingStudent.setLastName(studentDto.getLastName());
-        String studentDtoGroups = studentDto.getGroups();
-        Groups group = groupsService.findByName(studentDtoGroups);
-        modifyingStudent.setGroups(group);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-        String dateInString = studentDto.getWeekOfEntry();
-        Date studentDtoWeekOfEntry = sdf.parse(dateInString);
-        modifyingStudent.setWeekOfEntry(studentDtoWeekOfEntry);
-        studentService.add(modifyingStudent);
-        modifyingStudent = null;
-        return "redirect:/student/studentsList";
-    }
+    @RequestMapping(value = "/studentSave", method = RequestMethod.POST)
+    public String studentSave(@ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
+        Student student = studentService.findById(dto.getId());
+        if (student == null) {
+            student = new Student();
+        }
 
-
-    @RequestMapping(value = "/saveStudent", method = RequestMethod.POST)
-    public String saveStudent(@ModelAttribute("student") StudentDto studentDto, BindingResult result) throws ParseException {
-        String studentDtoLastName = studentDto.getLastName();
-        String studentDtoFirstName = studentDto.getFirstName();
+        String lastName = dto.getLastName();
+        String firstName = dto.getFirstName();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-        String dateInString = studentDto.getWeekOfEntry();
-        Date studentDtoWeekOfEntry = sdf.parse(dateInString);
+        String dateInString = dto.getWeekOfEntry();
+        Date weekOfEntry = sdf.parse(dateInString);
 
-        String studentDtoGroups = studentDto.getGroups();
+        String groups = dto.getGroups();
+        Groups group = groupsService.findByName(groups);
 
-        Groups group = groupsService.findByName(studentDtoGroups);
-        Student student = new Student(studentDtoFirstName, studentDtoLastName, studentDtoWeekOfEntry, group);
+        student.setAllParam(firstName, lastName, weekOfEntry, group);
         studentService.add(student);
         return "redirect:/student/studentsList";
     }

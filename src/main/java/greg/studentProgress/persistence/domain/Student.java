@@ -26,7 +26,24 @@ public class Student extends AbstractEntity {
 
     }
 
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(Long id) {
+        super.setId(id);
+    }
+
     public Student(String firstName, String lastName, Date weekOfEntry, Groups groups) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.weekOfEntry = weekOfEntry;
+        this.groups = groups;
+    }
+
+    public void setAllParam(String firstName, String lastName, Date weekOfEntry, Groups groups) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.weekOfEntry = weekOfEntry;
