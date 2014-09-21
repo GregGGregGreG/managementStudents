@@ -37,12 +37,12 @@
                 </table>
             </c:if>
         </div>
-        <div class="col-sm-4" style="margin: 35px;" >
+        <div class="col-sm-4" style="margin: 45px 0px;" >
             <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="creating">
                 Создать дисциплину
             </button>
             <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="modifying">
-                Модифцировать выбранную дисциплину
+                Модифицировать выбранную дисциплину
             </button>
             <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="remove">Удалить
                 выбранную дисциплину

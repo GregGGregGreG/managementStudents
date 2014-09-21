@@ -15,23 +15,26 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <div class="col-sm-8 col-dm-2 ">
-            <div class=" form-horizontal col-sm-8">
-                <form:form method="post" action="showDisciplineInTerm" role="form" modelAttribute="term">
-                    <div>
-                        <label for="curriculum1" class="col-sm-5 control-label ">Выберите семестр:</label>
+        <form:form method="post" action="/term/handlerTermsList" role="form" modelAttribute="term">
+        <div class="col-sm-10">
+            <div class="form-horizontal col-sm-10">
+                <label for="curriculum1" class="col-sm-3 control-label ">Выберите семестр:</label>
 
-                        <div class="col-sm-3">
-                            <form:select id="curriculum1" name="curriculum" class="form-control" path="nameTerm">
-                                <c:forEach items="${curriculum}" var="term">
-                                    <option>${term.numberTerm}</option>
-                                </c:forEach>
-                            </form:select>
+                <div class="col-sm-2">
+                    <form:select id="curriculum1" name="curriculum" class="form-control" path="nameTerm">
+                        <c:forEach items="${curriculum}" var="term">
+                            <option>${term.numberTerm}</option>
+                        </c:forEach>
+                    </form:select>
                         </div>
-                        <button type="submit" class="btn btn-success">Выбрать</button>
-                    </div>
-                </form:form>
-                <div style="padding: 10px 45px">
+                <button class="btn btn-success" type="submit" name="action" value="selectTerm">Выбрать</button>
+                <button class="btn btn-mini  btn-primary" type="submit" name="action"
+                        value="creating">
+                    Создать семестр
+                </button>
+            </div>
+            <div style="padding: 60px 0px">
+                <div class="col-sm-6" style="padding: 0px 45px">
                     <c:if test="${!empty listDiscipline}">
                         <h4 class="text-muted " style="padding: 5px 0px">Длительность семестра ${weekTerm.week}
                             недель</h4>
@@ -52,6 +55,20 @@
                         </table>
                     </c:if>
                 </div>
+                <div class="col-sm-4" style="margin:85px  0px;">
+                    <c:if test="${!empty listDiscipline}">
+                        <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
+                                value="modifying">
+                            Модифцировать текущий семестр
+                        </button>
+                        <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
+                                value="remove">
+                            Удалить
+                            текущий семестр
+                        </button>
+                    </c:if>
+                </div>
+                </form:form>
             </div>
         </div>
     </div>

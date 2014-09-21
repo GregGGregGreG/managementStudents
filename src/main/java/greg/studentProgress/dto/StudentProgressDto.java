@@ -1,6 +1,8 @@
 package greg.studentProgress.dto;
 
-public class StudentProgressDto {
+import java.io.Serializable;
+
+public class StudentProgressDto implements Serializable {
     private long studentId;
     private long termId;
 

@@ -1,14 +1,16 @@
 package greg.studentProgress.dto;
 
-public class DisciplineDto {
-    private long id;
+import java.io.Serializable;
+
+public class DisciplineDto implements Serializable {
+    private Long id;
     private String name;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -27,7 +29,7 @@ public class DisciplineDto {
 
         DisciplineDto that = (DisciplineDto) o;
 
-        if (id != that.id) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
         return true;
@@ -35,7 +37,7 @@ public class DisciplineDto {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }

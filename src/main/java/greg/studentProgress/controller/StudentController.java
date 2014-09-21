@@ -43,13 +43,13 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/handlerListsStudents", method = RequestMethod.POST)
-    public String handlerListsStudents(@RequestParam(value = "id", required = false) long[] id,
+    public String handlerListsStudents(@RequestParam(value = "id", required = false) Long[] id,
                                        @RequestParam String action,
                                        RedirectAttributes redirectAttributes) {
         if (!(id == null)) {
             switch (action) {
-                case "remove":
-                    for (long currID : id) {
+                case "removeList":
+                    for (Long currID : id) {
                         studentService.remove(studentService.findById(currID));
                     }
                     break;
@@ -59,7 +59,7 @@ public class StudentController {
                     }
                     return "redirect:/student/studentModifying";
                 case "studentListProgress":
-                    for (long currID : id) {
+                    for (Long currID : id) {
                         return "redirect:/student/studentProgress/" + currID;
                     }
             }
@@ -74,10 +74,10 @@ public class StudentController {
     public String studentProgress(ModelMap model,
                                   @PathVariable("userId") Long userId,
                                   @ModelAttribute StudentProgressDto dto) {
-        long studentId = dto.getStudentId();
+
         long termId = dto.getTermId();
 
-        List<StudentProgress> studentProgressList = studentProgressService.getDisciplineForStudentInTerm(studentId, termId);
+        List<StudentProgress> studentProgressList = studentProgressService.getDisciplineForStudentInTerm(userId, termId);
 
         double allRating = 0;
         int numberOfRatings = 0;
@@ -103,7 +103,6 @@ public class StudentController {
         String massage = "Для создпния студента заполните все поля и нажмите кнопку \"Cоздать\"";
         String nameButton = "Создать";
         model.addAttribute("student", new StudentDto());
-        model.addAttribute("modifyingStudent", new Student());
         model.addAttribute("massage", massage);
         model.addAttribute("nameButton", nameButton);
         return "studentCreating";

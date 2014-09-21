@@ -66,10 +66,7 @@
                                 <label for="term" class="col-sm-5 control-label ">Выбрать семестр:</label>
 
                                 <div class="col-sm-3">
-                                    <div style="display: none">
-                                        <form:input path="studentId" value="${modifyingStudent.id}"/>
-                                    </div>
-                                    <form:select id="term" name="term" class="form-control" path="termId">
+                                <form:select id="term" name="term" class="form-control" path="termId">
                                         <c:forEach items="${termList}" var="term">
                                             <option>${term.numberTerm}</option>
                                         </c:forEach>

@@ -31,4 +31,8 @@ public class TermService {
     public Term findByName(int term) {
         return repository.findByName(term);
     }
+
+    public Term findById(Long id) {
+        return repository.findById(id);
+    }
 }

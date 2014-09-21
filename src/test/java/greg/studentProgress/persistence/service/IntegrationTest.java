@@ -76,7 +76,7 @@ public class IntegrationTest {
             System.out.println(curriculum.getDiscipline().getName());
         }
 
-        curriculumService.remove(curriculumList);
+        curriculumService.removeList(curriculumList);
 
 
     }

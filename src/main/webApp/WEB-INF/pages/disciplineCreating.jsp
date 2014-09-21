@@ -15,14 +15,14 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <div class="col-sm-8  " style="padding: 0px 45px">
-            <h4 class="text-muted">${mesage}</h4>
-            <form:form method="post" action="saveDiscipline" commandName="discipline" role="form">
+        <div class="col-sm-8" style="padding: 0px 45px">
+            <h4 class="text-muted">${massage}</h4>
+            <form:form method="post" action="disciplineSave" commandName="discipline" role="form">
                 <div style="display: none">
                     <form:input path="id" value="${modifyingDiscipline.id}"/>
                 </div>
                 <div class="form-groups">
-                        <form:label path="name">Название:</form:label>
+                    <form:label path="name">Название:</form:label>
                     <form:input path="name" class="form-control" placeholder="Название"
                                 value="${modifyingDiscipline.name}"/>
                 </div>

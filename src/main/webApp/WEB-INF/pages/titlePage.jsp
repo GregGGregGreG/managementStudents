@@ -25,7 +25,7 @@
 
         </div>
         <div class="col-sm-4">
-            <a href="<c:url value="/curriculum/curriculumList.html"/>">Семестры</a>
+            <a href="<c:url value="/term/termsList.html"/>">Семестры</a>
 
         </div>
     </div>

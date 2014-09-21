@@ -26,9 +26,13 @@ public class CurriculumService {
         repository.saveAndFlush(new Curriculum(new TermDisciplineID(term, discipline)));
     }
 
-    public void remove(List<Curriculum> curriculum) {
+    public void removeList(List<Curriculum> curriculum) {
         repository.delete(curriculum);
-        logger.info("Delete curriculum!");
+        logger.info("Delete curriculum Lst!");
+    }
+
+    public void remove(Curriculum curriculum) {
+        repository.delete(curriculum);
     }
 
     public List<Curriculum> findByTerm(int term){

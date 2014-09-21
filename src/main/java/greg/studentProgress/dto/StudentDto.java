@@ -3,7 +3,7 @@ package greg.studentProgress.dto;
 import java.io.Serializable;
 
 public class StudentDto implements Serializable {
-    private long id;
+    private Long id;
     private String lastName;
     private String firstName;
     private String weekOfEntry;
@@ -41,11 +41,11 @@ public class StudentDto implements Serializable {
         this.groups = groups;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,9 +56,9 @@ public class StudentDto implements Serializable {
 
         StudentDto that = (StudentDto) o;
 
-        if (id != that.id) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (groups != null ? !groups.equals(that.groups) : that.groups != null) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         if (weekOfEntry != null ? !weekOfEntry.equals(that.weekOfEntry) : that.weekOfEntry != null) return false;
 
@@ -67,7 +67,7 @@ public class StudentDto implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (weekOfEntry != null ? weekOfEntry.hashCode() : 0);

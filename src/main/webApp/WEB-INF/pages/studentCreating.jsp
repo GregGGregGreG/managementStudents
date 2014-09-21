@@ -18,9 +18,8 @@
         <div class="col-sm-8 " style="padding: 0px 45px">
             <h4 class="text-muted">${massage}</h4>
             <form:form method="post" action="studentSave" commandName="student" role="form">
-
                 <div style="display: none">
-                    <form:input path="id" value="${modifyingStudent.id}"/>
+                <form:input path="id" value="${modifyingStudent.id}"/>
                 </div>
                 <div class="form-groups">
                     <form:label path="lastName">Фамилия:</form:label>

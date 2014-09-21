@@ -1,5 +1,6 @@
 package greg.studentProgress.controller;
 
+import greg.studentProgress.dto.DisciplineDto;
 import greg.studentProgress.persistence.domain.Discipline;
 import greg.studentProgress.persistence.service.DisciplineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/discipline")
@@ -24,26 +24,18 @@ public class DisciplineController {
 
     @RequestMapping(value = "/handlerDisciplineList", method = RequestMethod.POST)
     public String studentProgressList(@RequestParam(value = "id", required = false) long[] id,
-                                      @RequestParam String action,
-                                      RedirectAttributes redirectAttributes) {
+                                      @RequestParam String action) {
         if (!(id == null)) {
             switch (action) {
-                case "remove":
+                case "removeList":
                     for (long currID : id) {
                         disciplineService.remove(disciplineService.findById(currID));
                     }
                     break;
                 case "modifying":
                     for (long currID : id) {
-                        String massage = "Для того чтобы модифицировать дисциплину введите новое значение поля и нажмите кнопку  \"Применить\" ";
-                        String nameButton = "Применить";
-                        Discipline modifyingDiscipline = disciplineService.findById(currID);
-                        redirectAttributes.addFlashAttribute("discipline", modifyingDiscipline);
-                        redirectAttributes.addFlashAttribute("modifyingDiscipline", modifyingDiscipline);
-                        redirectAttributes.addFlashAttribute("massage", massage);
-                        redirectAttributes.addFlashAttribute("nameButton", nameButton);
+                        return "redirect:/discipline/disciplineModifying/" + currID;
                     }
-                    return "redirect:/discipline/disciplineModifying";
             }
         }
         if (action.equals("creating")) {
@@ -63,18 +55,36 @@ public class DisciplineController {
         return "disciplineCreating";
     }
 
-    @RequestMapping(value = "/disciplineModifying", method = RequestMethod.GET)
-    public String disciplineModifying(ModelMap model) {
-        model.addAttribute("discipline", new Discipline());
-        model.addAttribute("disciplineModifying", new Discipline());
+    @RequestMapping(value = "/disciplineModifying/{disciplineId}", method = RequestMethod.GET)
+    public String disciplineModifying(ModelMap model,
+                                      @PathVariable("disciplineId") Long disciplineId) {
+        String massage = "Для того чтобы модифицировать дисциплину введите новое значение поля и нажмите кнопку  \"Применить\" ";
+        String nameButton = "Применить";
+        Discipline modifyingDiscipline = disciplineService.findById(disciplineId);
+        model.addAttribute("discipline", modifyingDiscipline);
+        model.addAttribute("modifyingDiscipline", modifyingDiscipline);
+        model.addAttribute("massage", massage);
+        model.addAttribute("nameButton", nameButton);
         return "disciplineCreating";
     }
 
     @RequestMapping(value = "/disciplineSave", method = RequestMethod.POST)
-    public String saveStudent(@ModelAttribute("discipline") Discipline discipline, BindingResult result) {
+    public String disciplineSave(@ModelAttribute("discipline") DisciplineDto dto, BindingResult result) {
+        Discipline discipline = new Discipline();
+        String disciplineName = dto.getName();
+        discipline.setName(disciplineName);
         disciplineService.add(discipline);
         return "redirect:/discipline/disciplineList";
     }
 
+    @RequestMapping(value = "disciplineModifying/disciplineSave", method = RequestMethod.POST)
+    public String disciplineModifyingSave(@ModelAttribute("discipline") DisciplineDto dto, BindingResult result) {
+        String name = dto.getName();
+        Long id = dto.getId();
+        Discipline discipline = disciplineService.findById(id);
+        discipline.setName(name);
+        disciplineService.add(discipline);
+        return "redirect:/discipline/disciplineList";
+    }
 
- }
+}
