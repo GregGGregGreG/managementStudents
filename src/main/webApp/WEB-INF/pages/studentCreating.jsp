@@ -4,7 +4,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>AddStudents</title>
+    <title>StudentCreating</title>
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.min.css" rel="stylesheet">
@@ -18,6 +18,7 @@
         <div class="col-sm-8 " style="padding: 0px 45px">
             <h4 class="text-muted">${massage}</h4>
             <form:form method="post" action="studentSave" commandName="student" role="form">
+
                 <div style="display: none">
                     <form:input path="id" value="${modifyingStudent.id}"/>
                 </div>

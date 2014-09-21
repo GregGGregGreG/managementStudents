@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-sm-6 ">
                     <div>
-                        <form:form method="get" action="/student/studentProgress" role="form"
+                        <form:form method="get" action="/student/studentProgress/${modifyingStudent.id}" role="form"
                                    modelAttribute="SPDto">
                             <div class=" form-horizontal">
                                 <label for="term" class="col-sm-5 control-label ">Выбрать семестр:</label>

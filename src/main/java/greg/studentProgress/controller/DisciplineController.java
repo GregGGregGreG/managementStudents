@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/discipline")
-@SessionAttributes("disciplineModifying")
 public class DisciplineController {
     @Autowired
     private DisciplineService disciplineService;
@@ -26,30 +25,41 @@ public class DisciplineController {
     @RequestMapping(value = "/handlerDisciplineList", method = RequestMethod.POST)
     public String studentProgressList(@RequestParam(value = "id", required = false) long[] id,
                                       @RequestParam String action,
-                                      @ModelAttribute Discipline modifyingDiscipline,
                                       RedirectAttributes redirectAttributes) {
         if (!(id == null)) {
-            if (action.equals("remove")) {
-                for (long currID : id) {
-                    disciplineService.remove(disciplineService.findById(currID));
-                }
-            } else if (action.equals("modifying")) {
-                for (long currID : id) {
-                    modifyingDiscipline = disciplineService.findById(currID);
-                    redirectAttributes.addFlashAttribute("modifyingDiscipline", modifyingDiscipline);
-                }
-                return "redirect:/student/disciplineModifying";
-            } else if (action.equals("creating")) {
-                return "redirect:/discipline/disciplineCreating";
+            switch (action) {
+                case "remove":
+                    for (long currID : id) {
+                        disciplineService.remove(disciplineService.findById(currID));
+                    }
+                    break;
+                case "modifying":
+                    for (long currID : id) {
+                        String massage = "Для того чтобы модифицировать дисциплину введите новое значение поля и нажмите кнопку  \"Применить\" ";
+                        String nameButton = "Применить";
+                        Discipline modifyingDiscipline = disciplineService.findById(currID);
+                        redirectAttributes.addFlashAttribute("discipline", modifyingDiscipline);
+                        redirectAttributes.addFlashAttribute("modifyingDiscipline", modifyingDiscipline);
+                        redirectAttributes.addFlashAttribute("massage", massage);
+                        redirectAttributes.addFlashAttribute("nameButton", nameButton);
+                    }
+                    return "redirect:/discipline/disciplineModifying";
             }
+        }
+        if (action.equals("creating")) {
+            return "redirect:/discipline/disciplineCreating";
         }
         return "redirect:/discipline/disciplineList";
     }
 
     @RequestMapping(value = "/disciplineCreating", method = RequestMethod.GET)
     public String disciplineCreating(ModelMap model) {
+        String massage = "Для того чтобы создать новую дисциплину заполните все поля и нажмите кнопку  \"Создать\" ";
+        String nameButton = "Создать";
         model.addAttribute("discipline", new Discipline());
         model.addAttribute("disciplineModifying", new Discipline());
+        model.addAttribute("massage", massage);
+        model.addAttribute("nameButton", nameButton);
         return "disciplineCreating";
     }
 

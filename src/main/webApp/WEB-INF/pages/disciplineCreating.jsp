@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: GreG
-  Date: 15.09.2014
-  Time: 23:55
-  To change this template use File | Settings | File Templates.
---%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -22,23 +15,21 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <div class="col-sm-11  " style="padding: 0px 45px">
+        <div class="col-sm-8  " style="padding: 0px 45px">
             <h4 class="text-muted">${mesage}</h4>
-
-            <div style="width: 50%">
-                <form:form method="post" action="saveDiscipline" commandName="discipline" role="form">
-                    <div style="display: none">
-                        <form:input path="id" value="${modifyingStudent.id}"/>
-                    </div>
-                    <div class="form-groups">
+            <form:form method="post" action="saveDiscipline" commandName="discipline" role="form">
+                <div style="display: none">
+                    <form:input path="id" value="${modifyingDiscipline.id}"/>
+                </div>
+                <div class="form-groups">
                         <form:label path="name">Название:</form:label>
-                        <form:input path="name" class="form-control" placeholder="Название"/>
-                    </div>
+                    <form:input path="name" class="form-control" placeholder="Название"
+                                value="${modifyingDiscipline.name}"/>
+                </div>
                     <div class="form-groups" style="padding:15px 0px">
-                        <button type="submit" class="btn btn-success">Создать</button>
+                        <button type="submit" class="btn btn-success">${nameButton}</button>
                     </div>
                 </form:form>
-            </div>
         </div>
     </div>
 </div>

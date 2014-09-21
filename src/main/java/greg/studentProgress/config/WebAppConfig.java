@@ -14,7 +14,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -43,7 +42,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     private String jDbcHibernateHbm2ddlAuto;
     @Value("#{environment['hibernate.dialect']}")
     private String jDbcHibernateDialect;
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -109,12 +107,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         populator.addScript(new ClassPathResource("sql/data.sql"));
         populator.populate(dataSource.getConnection());
         return populator;
-    }
-
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/WEB-INF/pages/bootstrap/css/**").addResourceLocations("/WEB-INF/pages/bootstrap/css/");
     }
 
 }
