@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/term")
@@ -42,13 +44,16 @@ public class TermController {
         return "termsList";
     }
 
-    @RequestMapping(value = "/termsList/{termID}", method = RequestMethod.GET)
+    @RequestMapping(value = "/termsList/{nameTerm}", method = RequestMethod.GET)
     public String termListId(ModelMap model,
-                             @PathVariable("termID") int termId) {
+                             @PathVariable("nameTerm") int nameTerm) {
+
+
         model.addAttribute("term", new CurriculumDto());
         model.addAttribute("curriculum", termService.findAll());
-        model.addAttribute("listDiscipline", curriculumService.findByTerm(termId));
-        model.addAttribute("weekTerm", termService.findByName(termId));
+        model.addAttribute("listDiscipline", curriculumService.findByTerm(nameTerm));
+        model.addAttribute("weekTerm", termService.findByName(nameTerm));
+        model.addAttribute("termId",termService.findByName(nameTerm).getId());
         return "termsList";
     }
 
@@ -62,7 +67,7 @@ public class TermController {
                 termService.remove(termService.findByName(Integer.parseInt(dto.getNameTerm())));
                 break;
             case "modifying":
-                return "redirect:/term/termModifying/" + dto.getNameTerm();
+                return "redirect:/term/termModifying/" + dto.getId();
             case "creating":
                 return "redirect:/term/termCreating";
         }
@@ -80,12 +85,12 @@ public class TermController {
         return "termCreating";
     }
 
-    @RequestMapping(value = "/termModifying/{nameId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/termModifying/{termId}", method = RequestMethod.GET)
     public String disciplineModifying(ModelMap model,
-                                      @PathVariable("nameId") int nameId) {
+                                      @PathVariable("termId") Long termId) {
         String massage = "Для модификации семестра отредактируйте данные и нажмите кнопку  \"Применить\" ";
         String nameButton = "Применить";
-        Term modifyingTerm = termService.findByName(nameId);
+        Term modifyingTerm = termService.findById(termId);
         model.addAttribute("curriculum", new CurriculumDto());
         model.addAttribute("modifyingTerm", modifyingTerm);
         model.addAttribute("disciplineList", disciplineService.findAll());
@@ -120,19 +125,37 @@ public class TermController {
         int nameTerm = termModifying.getNumberTerm();
         termModifying.setWeek(week);
         termService.add(termModifying);
+        //trash!!
+        List<Curriculum> curriculumList = curriculumService.findByTerm(nameTerm);
+        ArrayList<String> curriculumListNameDiscipline = new ArrayList<>();
+        int curriculumListSize = curriculumList.size();
 
-        for (Curriculum curriculum : curriculumService.findByTerm(nameTerm)) {
-            Term term = termService.findByName(nameTerm);
-
-            Discipline discipline = disciplineService.findByName(str);
-
-
+        System.out.println("curriculumList size" + curriculumList.size());
+        for (Curriculum curriculum : curriculumList) {
+            curriculumListNameDiscipline.add(curriculum.getDiscipline().getName());
+            System.out.println("curriculumList " + curriculum.getDiscipline().getName());
         }
 
-
-        curriculumService.add(term, discipline);
+        List<String> disciplineList = dto.getDisciplineList();
+        int disciplineListSize = disciplineList.size();
+        System.out.println("disciplineList size" + disciplineList.size());
+        for (String discipline : disciplineList) {
+            System.out.println("disciplineList " + discipline);
+        }
+        if (disciplineListSize > curriculumListSize) {
+            for (String discipline : disciplineList) {
+                if (!(curriculumListNameDiscipline.contains(discipline))) {
+                    curriculumService.add(termService.findByName(nameTerm), disciplineService.findByName(discipline));
+                }
+            }
+        } else {
+            for (String discipline : curriculumListNameDiscipline) {
+                if (!(disciplineList.contains(discipline))) {
+                    curriculumService.remove(curriculumService.getCurriculum(nameTerm, discipline));
+                }
+            }
+        }
+        return "redirect:/term/termsList";
     }
+}
 
-    return"redirect:/term/termsList";
-}
-}

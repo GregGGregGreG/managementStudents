@@ -19,7 +19,9 @@
         <div class="col-sm-10">
             <div class="form-horizontal col-sm-10">
                 <label for="curriculum1" class="col-sm-3 control-label ">Выберите семестр:</label>
-
+                <div style="display: none">
+                    <form:input path="id" value="${termId}"/>
+                </div>
                 <div class="col-sm-2">
                     <form:select id="curriculum1" name="curriculum" class="form-control" path="nameTerm">
                         <c:forEach items="${curriculum}" var="term">
