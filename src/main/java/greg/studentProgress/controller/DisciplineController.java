@@ -22,7 +22,7 @@ public class DisciplineController {
         return "disciplineList";
     }
 
-    @RequestMapping(value = "/handlerDisciplineList", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/handlerDisciplineList", method = RequestMethod.POST)
     public String studentProgressList(@RequestParam(value = "id", required = false) long[] id,
                                       @RequestParam String action) {
         if (!(id == null)) {
@@ -34,17 +34,17 @@ public class DisciplineController {
                     break;
                 case "modifying":
                     for (long currID : id) {
-                        return "redirect:/discipline/disciplineModifying/" + currID;
+                        return "redirect:/discipline/admin/disciplineModifying/" + currID;
                     }
             }
         }
         if (action.equals("creating")) {
-            return "redirect:/discipline/disciplineCreating";
+            return "redirect:/discipline/admin/disciplineCreating";
         }
         return "redirect:/discipline/disciplineList";
     }
 
-    @RequestMapping(value = "/disciplineCreating", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/disciplineCreating", method = RequestMethod.GET)
     public String disciplineCreating(ModelMap model) {
         String massage = "Для того чтобы создать новую дисциплину заполните все поля и нажмите кнопку  \"Создать\" ";
         String nameButton = "Создать";
@@ -55,7 +55,7 @@ public class DisciplineController {
         return "disciplineCreating";
     }
 
-    @RequestMapping(value = "/disciplineModifying/{disciplineId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/disciplineModifying/{disciplineId}", method = RequestMethod.GET)
     public String disciplineModifying(ModelMap model,
                                       @PathVariable("disciplineId") Long disciplineId) {
         String massage = "Для того чтобы модифицировать дисциплину введите новое значение поля и нажмите кнопку  \"Применить\" ";
@@ -68,7 +68,7 @@ public class DisciplineController {
         return "disciplineCreating";
     }
 
-    @RequestMapping(value = "/disciplineSave", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/disciplineSave", method = RequestMethod.POST)
     public String disciplineSave(@ModelAttribute("discipline") DisciplineDto dto, BindingResult result) {
         Discipline discipline = new Discipline();
         String disciplineName = dto.getName();
@@ -77,7 +77,7 @@ public class DisciplineController {
         return "redirect:/discipline/disciplineList";
     }
 
-    @RequestMapping(value = "disciplineModifying/disciplineSave", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/disciplineModifying/disciplineSave", method = RequestMethod.POST)
     public String disciplineModifyingSave(@ModelAttribute("discipline") DisciplineDto dto, BindingResult result) {
         String name = dto.getName();
         Long id = dto.getId();

@@ -16,7 +16,7 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <form:form method="post" action="/term/handlerTermsList" role="form" modelAttribute="term">
+        <form:form method="post" action="/term/termsList/admin/handlerTermsList" role="form" modelAttribute="term">
         <div class="col-sm-10">
             <div class="form-horizontal col-sm-10">
                 <label for="curriculum1" class="col-sm-3 control-label ">Выберите семестр:</label>

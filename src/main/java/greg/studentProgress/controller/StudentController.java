@@ -14,8 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,17 +33,14 @@ public class StudentController {
     private TermService termService;
 
     @RequestMapping(value = "/studentsList", method = RequestMethod.GET)
-    public ModelAndView studentList() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("studentsList");
-        modelAndView.addObject("students", studentService.findAll());
-        return modelAndView;
+    public String studentList(ModelMap model) {
+        model.addAttribute("students", studentService.findAll());
+        return "studentsList";
     }
 
     @RequestMapping(value = "/handlerListsStudents", method = RequestMethod.POST)
     public String handlerListsStudents(@RequestParam(value = "id", required = false) Long[] id,
-                                       @RequestParam String action,
-                                       RedirectAttributes redirectAttributes) {
+                                       @RequestParam String action) {
         if (!(id == null)) {
             switch (action) {
                 case "remove":
@@ -55,9 +50,8 @@ public class StudentController {
                     break;
                 case "modifying":
                     for (Long currID : id) {
-                        return "redirect:/student/studentModifying/" + currID;
+                        return "redirect:/student/admin/studentModifying/" + currID;
                     }
-                    return "redirect:/student/studentModifying";
                 case "studentListProgress":
                     for (Long currID : id) {
                         return "redirect:/student/studentProgress/" + currID;
@@ -65,7 +59,7 @@ public class StudentController {
             }
         }
         if (action.equals("creating")) {
-            return "redirect:/student/studentCreating";
+            return "redirect:/student/admin/studentCreating";
         }
         return "redirect:/student/studentsList";
     }
@@ -98,7 +92,7 @@ public class StudentController {
         return "studentProgress";
     }
 
-    @RequestMapping(value = "/studentCreating", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/studentCreating", method = RequestMethod.GET)
     public String studentCreating(ModelMap model) {
         String massage = "Для создпния студента заполните все поля и нажмите кнопку \"Cоздать\"";
         String nameButton = "Создать";
@@ -108,7 +102,23 @@ public class StudentController {
         return "studentCreating";
     }
 
-    @RequestMapping(value = "/studentModifying/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "admin/studentSave", method = RequestMethod.POST  )
+    public String studentSave(@ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
+        String lastName = dto.getLastName();
+        String firstName = dto.getFirstName();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
+        String dateInString = dto.getWeekOfEntry();
+        Date weekOfEntry = sdf.parse(dateInString);
+
+        String groups = dto.getGroups();
+        Groups group = groupsService.findByName(groups);
+
+        studentService.add(new Student(firstName, lastName, weekOfEntry, group));
+        return "redirect:/student/studentsList";
+    }
+
+    @RequestMapping(value = "/admin/studentModifying/{userId}", method = RequestMethod.GET)
     public String studentModifying(ModelMap model, @PathVariable("userId") Long userId) {
         String massage = "Для модификации студента заполните все поля и нажмите кнопку  \"Применить\" ";
         String nameButton = "Применить";
@@ -120,35 +130,8 @@ public class StudentController {
         return "studentCreating";
     }
 
-    @RequestMapping(value = "/studentSave", method = RequestMethod.POST)
-    public String studentSave(@ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
-        Student student = studentService.findById(dto.getId());
-        if (student == null) {
-            student = new Student();
-        }
-
-        String lastName = dto.getLastName();
-        String firstName = dto.getFirstName();
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-        String dateInString = dto.getWeekOfEntry();
-        Date weekOfEntry = sdf.parse(dateInString);
-
-        String groups = dto.getGroups();
-        Groups group = groupsService.findByName(groups);
-
-        student.setAllParam(firstName, lastName, weekOfEntry, group);
-        studentService.add(student);
-        return "redirect:/student/studentsList";
-    }
-
-    @RequestMapping(value = "studentModifying/studentSave", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/studentModifying/studentSave", method = RequestMethod.POST)
     public String studentModifyingSave(@ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
-        Student student = studentService.findById(dto.getId());
-        if (student == null) {
-            student = new Student();
-        }
-
         String lastName = dto.getLastName();
         String firstName = dto.getFirstName();
 
@@ -156,9 +139,9 @@ public class StudentController {
         String dateInString = dto.getWeekOfEntry();
         Date weekOfEntry = sdf.parse(dateInString);
 
-        String groups = dto.getGroups();
-        Groups group = groupsService.findByName(groups);
+        Groups group = groupsService.findByName(dto.getGroups());
 
+        Student student = studentService.findById(dto.getId());
         student.setAllParam(firstName, lastName, weekOfEntry, group);
         studentService.add(student);
         return "redirect:/student/studentsList";

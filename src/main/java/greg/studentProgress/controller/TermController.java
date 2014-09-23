@@ -56,7 +56,7 @@ public class TermController {
     }
 
 
-    @RequestMapping(value = "/handlerTermsList", method = RequestMethod.POST)
+    @RequestMapping(value = "termsList/admin/handlerTermsList", method = RequestMethod.POST)
     public String studentProgressList(
             @ModelAttribute("term") CurriculumDto dto,
             @RequestParam String action) {
@@ -65,14 +65,14 @@ public class TermController {
                 termService.remove(termService.findByName(Integer.parseInt(dto.getNameTerm())));
                 return "redirect:/term/termsList/";
             case "modifying":
-                return "redirect:/term/termModifying/" + dto.getId();
+                return "redirect:/term/admin/termModifying/" + dto.getId();
             case "creating":
-                return "redirect:/term/termCreating";
+                return "redirect:/term/admin/termCreating";
         }
         return "redirect:/term/termsList/" + dto.getNameTerm();
     }
 
-    @RequestMapping(value = "/termCreating", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/termCreating", method = RequestMethod.GET)
     public String termCreating(ModelMap model) {
         String massage = "Для создания семестра заполните следующие данные и нажмите кнопку  \"Создать\" ";
         String nameButton = "Создать";
@@ -83,7 +83,7 @@ public class TermController {
         return "termCreating";
     }
 
-    @RequestMapping(value = "/termModifying/{termId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/termModifying/{termId}", method = RequestMethod.GET)
     public String disciplineModifying(ModelMap model,
                                       @PathVariable("termId") Long termId) {
         String massage = "Для модификации семестра отредактируйте данные и нажмите кнопку  \"Применить\" ";
@@ -98,7 +98,7 @@ public class TermController {
     }
 
 
-    @RequestMapping(value = "/termSave", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/termSave", method = RequestMethod.POST)
     public String saveTerm(@ModelAttribute("curriculum") CurriculumDto dto, BindingResult result) {
         int nameTerm;
         if (termService.findAll().size() > 0) {
@@ -116,7 +116,7 @@ public class TermController {
         return "redirect:/term/termsList";
     }
 
-    @RequestMapping(value = "/termModifying/termSave", method = RequestMethod.POST)
+    @RequestMapping(value = "admin/termModifying/termSave", method = RequestMethod.POST)
     public String termModifyingSave(@ModelAttribute("curriculum") CurriculumDto dto, BindingResult result) throws ParseException {
         Term termModifying = termService.findById(dto.getId());
         int week = dto.getWeek();

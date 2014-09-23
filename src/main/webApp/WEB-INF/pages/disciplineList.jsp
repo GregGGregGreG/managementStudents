@@ -16,7 +16,7 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <form:form action="handlerDisciplineList" method="post" role="form">
+        <form:form action="admin/handlerDisciplineList" method="post" role="form">
             <div class="col-sm-6" style="padding: 0px 45px">
             <c:if test="${!empty disciplines}">
                 <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Cписок дисциплин</h4>
