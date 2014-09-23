@@ -27,7 +27,7 @@ public class DisciplineController {
                                       @RequestParam String action) {
         if (!(id == null)) {
             switch (action) {
-                case "removeList":
+                case "remove":
                     for (long currID : id) {
                         disciplineService.remove(disciplineService.findById(currID));
                     }

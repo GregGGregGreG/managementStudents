@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,14 +23,18 @@
                 <table class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                     <tr>
-                        <th class="text-info"></th>
+                        <sec:authorize access="isAuthenticated()">
+                            <th class="text-info"></th>
+                        </sec:authorize>
                         <th class="text-info">Наименование дисциплины</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${disciplines}" var="discipline">
                         <tr>
+                            <sec:authorize access="isAuthenticated()">
                             <td><input type="checkbox" name="id" value="${discipline.id}"/></td>
+                            </sec:authorize>
                             <td>${discipline.name}</td>
                         </tr>
                     </c:forEach>
@@ -38,6 +43,7 @@
             </c:if>
         </div>
         <div class="col-sm-4" style="margin: 45px 0px;" >
+            <sec:authorize access="isAuthenticated()">
             <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="creating">
                 Создать дисциплину
             </button>
@@ -47,6 +53,7 @@
             <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="remove">Удалить
                 выбранную дисциплину
             </button>
+            </sec:authorize>
         </div>
         </form:form>
     </div>

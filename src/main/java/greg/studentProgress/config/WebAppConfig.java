@@ -108,5 +108,4 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         populator.populate(dataSource.getConnection());
         return populator;
     }
-
 }

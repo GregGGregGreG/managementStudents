@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -30,10 +31,12 @@
                     </form:select>
                         </div>
                 <button class="btn btn-success" type="submit" name="action" value="selectTerm">Выбрать</button>
+                <sec:authorize access="isAuthenticated()">
                 <button class="btn btn-mini  btn-primary" type="submit" name="action"
                         value="creating">
                     Создать семестр
                 </button>
+                </sec:authorize>
             </div>
             <div style="padding: 60px 0px">
                 <div class="col-sm-6" style="padding: 0px 45px">
@@ -57,6 +60,7 @@
                         </table>
                     </c:if>
                 </div>
+                <sec:authorize access="isAuthenticated()">
                 <div class="col-sm-4" style="margin:85px  0px;">
                     <c:if test="${!empty listDiscipline}">
                         <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
@@ -70,6 +74,7 @@
                         </button>
                     </c:if>
                 </div>
+                </sec:authorize>
                 </form:form>
             </div>
         </div>

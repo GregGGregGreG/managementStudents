@@ -48,7 +48,7 @@ public class StudentController {
                                        RedirectAttributes redirectAttributes) {
         if (!(id == null)) {
             switch (action) {
-                case "removeList":
+                case "remove":
                     for (Long currID : id) {
                         studentService.remove(studentService.findById(currID));
                     }

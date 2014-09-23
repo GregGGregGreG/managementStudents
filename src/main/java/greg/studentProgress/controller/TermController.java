@@ -47,8 +47,6 @@ public class TermController {
     @RequestMapping(value = "/termsList/{nameTerm}", method = RequestMethod.GET)
     public String termListId(ModelMap model,
                              @PathVariable("nameTerm") int nameTerm) {
-
-
         model.addAttribute("term", new CurriculumDto());
         model.addAttribute("curriculum", termService.findAll());
         model.addAttribute("listDiscipline", curriculumService.findByTerm(nameTerm));
@@ -63,9 +61,9 @@ public class TermController {
             @ModelAttribute("term") CurriculumDto dto,
             @RequestParam String action) {
         switch (action) {
-            case "removeList":
+            case "remove":
                 termService.remove(termService.findByName(Integer.parseInt(dto.getNameTerm())));
-                break;
+                return "redirect:/term/termsList/";
             case "modifying":
                 return "redirect:/term/termModifying/" + dto.getId();
             case "creating":
