@@ -1,12 +1,19 @@
 package greg.studentProgress.dto;
 
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.io.Serializable;
 
 public class StudentDto implements Serializable {
     private Long id;
+    @NotEmpty(message = "Фамилия не может быть пустой.")
     private String lastName;
+    @NotEmpty(message = "Имя не может быть пустым.")
     private String firstName;
+    @NotEmpty(message = "Год поступления не может быть пустым.")
     private String weekOfEntry;
+    @NotEmpty(message = "Группа не может быть пустой.")
     private String groups;
 
     public String getLastName() {

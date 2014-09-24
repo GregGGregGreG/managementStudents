@@ -6,19 +6,19 @@
 
 
 <div class="container">
-   <div class="text-right">
-       <sec:authorize access="!isAuthenticated()">
-           <p><a  href="<c:url value="/login" />" role="button">Войти</a></p>
-       </sec:authorize>
-       <sec:authorize access="isAuthenticated()">
-           <p>Ваш логин: <sec:authentication property="principal.username" /></p>
-           <p><a  href="<c:url value="/logout" />" role="button">Выйти</a></p>
+    <div class="text-right">
+        <sec:authorize access="!isAuthenticated()">
+            <p><a href="<c:url value="/login" />" role="button">Войти</a></p>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <p>Ваш логин: <sec:authentication property="principal.username"/></p>
 
-       </sec:authorize>
-   </div>
+            <p><a href="<c:url value="/logout" />" role="button">Выйти</a></p>
+        </sec:authorize>
+    </div>
 
     <div class="row">
-        <div >
+        <div>
             <div class=" text-center ">
                 <h2 class="text-muted">Система управления студентами и их успеваемостью</h2>
             </div>

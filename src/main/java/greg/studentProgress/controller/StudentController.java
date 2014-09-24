@@ -15,6 +15,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -94,44 +95,45 @@ public class StudentController {
 
     @RequestMapping(value = "/admin/studentCreating", method = RequestMethod.GET)
     public String studentCreating(ModelMap model) {
-        String massage = "Для создпния студента заполните все поля и нажмите кнопку \"Cоздать\"";
-        String nameButton = "Создать";
         model.addAttribute("student", new StudentDto());
-        model.addAttribute("massage", massage);
-        model.addAttribute("nameButton", nameButton);
         return "studentCreating";
     }
 
     @RequestMapping(value = "admin/studentSave", method = RequestMethod.POST  )
-    public String studentSave(@ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
-        String lastName = dto.getLastName();
-        String firstName = dto.getFirstName();
+    public String studentSave(@Valid @ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
+        if (result.hasErrors()) {
+            return "studentCreating";
+        } else {
+            String lastName = dto.getLastName();
+            String firstName = dto.getFirstName();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-        String dateInString = dto.getWeekOfEntry();
-        Date weekOfEntry = sdf.parse(dateInString);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
+            String dateInString = dto.getWeekOfEntry();
+            Date weekOfEntry = sdf.parse(dateInString);
 
-        String groups = dto.getGroups();
-        Groups group = groupsService.findByName(groups);
+            String groups = dto.getGroups();
+            Groups group = groupsService.findByName(groups);
 
-        studentService.add(new Student(firstName, lastName, weekOfEntry, group));
-        return "redirect:/student/studentsList";
+            studentService.add(new Student(firstName, lastName, weekOfEntry, group));
+            return "redirect:/student/studentsList";
+        }
     }
 
     @RequestMapping(value = "/admin/studentModifying/{userId}", method = RequestMethod.GET)
-    public String studentModifying(ModelMap model, @PathVariable("userId") Long userId) {
-        String massage = "Для модификации студента заполните все поля и нажмите кнопку  \"Применить\" ";
-        String nameButton = "Применить";
+    public String studentModifying(ModelMap model,
+                                   @PathVariable("userId") Long userId) {
         Student modifyingStudent = (studentService.findById(userId));
-        model.addAttribute("student", modifyingStudent);
+        model.addAttribute("student", new StudentDto());
         model.addAttribute("modifyingStudent", modifyingStudent);
-        model.addAttribute("massage", massage);
-        model.addAttribute("nameButton", nameButton);
         return "studentCreating";
     }
 
     @RequestMapping(value = "admin/studentModifying/studentSave", method = RequestMethod.POST)
-    public String studentModifyingSave(@ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
+    public String studentModifyingSave(@Valid @ModelAttribute("student") StudentDto dto,
+                                       BindingResult result) throws ParseException {
+        if (result.hasErrors()) {
+            return "studentCreating";
+        }
         String lastName = dto.getLastName();
         String firstName = dto.getFirstName();
 

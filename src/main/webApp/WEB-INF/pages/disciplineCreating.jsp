@@ -7,8 +7,6 @@
     <title>AddDiscipline</title>
     <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap-responsive.css" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
