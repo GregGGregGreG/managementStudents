@@ -8,9 +8,9 @@ import java.util.Set;
 
 @Entity
 public class Student extends AbstractEntity {
-    @Column(nullable = false)
+    @Column(nullable = false, length = 45)
     private String firstName;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 45)
     private String lastName;
     @Column(nullable = false)
     @Temporal(value = TemporalType.DATE)
@@ -23,7 +23,6 @@ public class Student extends AbstractEntity {
     private Set<StudentProgress> studentProgresses = Collections.emptySet();
 
     public Student() {
-
     }
 
     @Override

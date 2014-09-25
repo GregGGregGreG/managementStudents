@@ -8,7 +8,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -22,7 +23,6 @@ import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import javax.sql.DataSource;
-import java.util.Objects;
 import java.util.Properties;
 
 
@@ -59,12 +59,16 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public DataSource restDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(Objects.requireNonNull(jDbcDriverClassName));
-        dataSource.setUrl(Objects.requireNonNull(jDbcUrl));
-        dataSource.setUsername(Objects.requireNonNull(jDbcUser));
-        dataSource.setPassword(Objects.requireNonNull(jDbcPass));
-        return dataSource;
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName(Objects.requireNonNull(jDbcDriverClassName));
+//        dataSource.setUrl(Objects.requireNonNull(jDbcUrl));
+//        dataSource.setUsername(Objects.requireNonNull(jDbcUser));
+//        dataSource.setPassword(Objects.requireNonNull(jDbcPass));
+//        return dataSource;
+        return new EmbeddedDatabaseBuilder()
+                .setName("STUDENT_PROGRESS")
+                .setType(EmbeddedDatabaseType.H2)
+                .build();
     }
 
     private Properties jpaProperty() {
@@ -104,16 +108,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    @DependsOn("entityManagerFactory")
-    public ResourceDatabasePopulator initDatabase(DataSource dataSource) throws Exception {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("sql/data.sql"));
-        populator.populate(dataSource.getConnection());
-        return populator;
-    }
-
-
-    @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setCacheSeconds(0);
@@ -123,5 +117,13 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/pages/**").addResourceLocations("/WEB-INF/pages/");
+    }
+
+    @Bean
+    public ResourceDatabasePopulator initDatabase(DataSource dataSource) throws Exception {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(new ClassPathResource("sql/H2.sql"));
+        populator.populate(dataSource.getConnection());
+        return populator;
     }
 }

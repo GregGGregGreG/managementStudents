@@ -32,9 +32,7 @@ public class TermController {
 
     @RequestMapping(value = "/termsList", method = RequestMethod.GET)
     public String termList(ModelMap model,
-
                            @ModelAttribute("term") CurriculumDto dto) {
-
         model.addAttribute("term", new CurriculumDto());
         model.addAttribute("curriculum", termService.findAll());
         if (!(dto.getNameTerm() == null)) {
@@ -51,7 +49,7 @@ public class TermController {
         model.addAttribute("curriculum", termService.findAll());
         model.addAttribute("listDiscipline", curriculumService.findByTerm(nameTerm));
         model.addAttribute("weekTerm", termService.findByName(nameTerm));
-        model.addAttribute("termId",termService.findByName(nameTerm).getId());
+        model.addAttribute("termId", termService.findByName(nameTerm).getId());
         return "termsList";
     }
 

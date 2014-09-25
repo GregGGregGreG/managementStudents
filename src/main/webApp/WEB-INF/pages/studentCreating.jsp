@@ -20,10 +20,10 @@
     <div class="row">
         <jsp:include page="navBar.jsp"/>
         <div class="col-sm-8 " style="padding: 0px 45px">
-            <form:form method="post" action="studentSave" commandName="student" role="form">
+            <form:form method="post" action="/student/admin/studentSave" commandName="student" role="form">
                 <c:choose>
-                    <c:when test="${ empty student.id &&  empty modifyingStudent}">
-                        <h4 class="text-muted">Для создания студента заполните все поля и нажмите кнопку "Cоздать"</h4>
+                    <c:when test="${empty student.id}">
+                    <h4 class="text-muted">Для создания студента заполните все поля и нажмите кнопку "Cоздать"</h4>
 
                         <div class="row">
                             <div class="form-groups col-sm-5">
@@ -67,15 +67,11 @@
                     <c:otherwise>
                         <h4 class="text-muted">Для модификации студента заполните все поля и нажмите кнопку
                             "Применить"</h4>
-
-                        <div style="display: none">
-                            <form:input path="id" value="${modifyingStudent.id}"/>
-                        </div>
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="lastName">Фамилия:</form:label>
                                 <form:input path="lastName" class="form-control" placeholder="Фамилия:"
-                                            value="${modifyingStudent.lastName}"/>
+                                            value="${student.lastName}"/>
                             </div>
                             <div class="col-sm-5" style="margin-top: 30px">
                                 <form:errors path="lastName" cssClass="text-danger"/>
@@ -85,7 +81,7 @@
                             <div class="form-groups col-sm-5">
                                 <form:label path="firstName">Имя:</form:label>
                                 <form:input path="firstName" class="form-control" placeholder="Имя"
-                                            value="${modifyingStudent.firstName}"/>
+                                            value="${student.firstName}"/>
                             </div>
                             <div class="col-sm-5" style="margin-top: 30px">
                                 <form:errors path="firstName" cssClass="text-danger"/>
@@ -95,7 +91,7 @@
                             <div class="form-groups col-sm-5">
                                 <form:label path="groups">Группа:</form:label>
                                 <form:input path="groups" class="form-control" placeholder="Группа"
-                                            value="${modifyingStudent.groups.name}"/>
+                                            value="${student.groups}"/>
                             </div>
                             <div class="col-sm-5" style="margin-top: 30px">
                                 <form:errors path="groups" cssClass="text-danger"/>
@@ -105,7 +101,7 @@
                             <div class="form-groups col-sm-5">
                                 <form:label path="weekOfEntry">Дата поступления:</form:label>
                                 <form:input path="weekOfEntry" class="form-control" placeholder="Дата поступления"
-                                            value="${modifyingStudent.weekOfEntry}"/>
+                                            value="${student.weekOfEntry}"/>
                                 <button type="submit" class="btn btn-success" style="margin-top: 20px">Применить
                                 </button>
                             </div>

@@ -99,41 +99,26 @@ public class StudentController {
         return "studentCreating";
     }
 
-    @RequestMapping(value = "admin/studentSave", method = RequestMethod.POST  )
-    public String studentSave(@Valid @ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
-        if (result.hasErrors()) {
-            return "studentCreating";
-        } else {
-            String lastName = dto.getLastName();
-            String firstName = dto.getFirstName();
-
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-dd");
-            String dateInString = dto.getWeekOfEntry();
-            Date weekOfEntry = sdf.parse(dateInString);
-
-            String groups = dto.getGroups();
-            Groups group = groupsService.findByName(groups);
-
-            studentService.add(new Student(firstName, lastName, weekOfEntry, group));
-            return "redirect:/student/studentsList";
-        }
-    }
-
     @RequestMapping(value = "/admin/studentModifying/{userId}", method = RequestMethod.GET)
     public String studentModifying(ModelMap model,
                                    @PathVariable("userId") Long userId) {
         Student modifyingStudent = (studentService.findById(userId));
-        model.addAttribute("student", new StudentDto());
-        model.addAttribute("modifyingStudent", modifyingStudent);
+        model.addAttribute("student", new StudentDto(modifyingStudent));
         return "studentCreating";
     }
 
-    @RequestMapping(value = "admin/studentModifying/studentSave", method = RequestMethod.POST)
-    public String studentModifyingSave(@Valid @ModelAttribute("student") StudentDto dto,
-                                       BindingResult result) throws ParseException {
+    @RequestMapping(value = "/admin/studentSave", method = RequestMethod.POST)
+    public String studentSave(@Valid @ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
         if (result.hasErrors()) {
             return "studentCreating";
         }
+
+        Student student = studentService.findById(dto.getId());
+        if (student == null) {
+            student = new Student();
+        }
+
+
         String lastName = dto.getLastName();
         String firstName = dto.getFirstName();
 
@@ -141,11 +126,12 @@ public class StudentController {
         String dateInString = dto.getWeekOfEntry();
         Date weekOfEntry = sdf.parse(dateInString);
 
-        Groups group = groupsService.findByName(dto.getGroups());
+        String groups = dto.getGroups();
+        Groups group = groupsService.findByName(groups);
 
-        Student student = studentService.findById(dto.getId());
         student.setAllParam(firstName, lastName, weekOfEntry, group);
         studentService.add(student);
         return "redirect:/student/studentsList";
+
     }
-}
+ }

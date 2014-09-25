@@ -1,20 +1,35 @@
 package greg.studentProgress.dto;
 
 
+import greg.studentProgress.persistence.domain.Student;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class StudentDto implements Serializable {
     private Long id;
     @NotEmpty(message = "Фамилия не может быть пустой.")
+    @Size(min = 3, max = 45, message = "Минимальная длина 3 символа")
     private String lastName;
     @NotEmpty(message = "Имя не может быть пустым.")
+    @Size(min = 3, max = 45, message = "Минимальная длина 3 символа")
     private String firstName;
     @NotEmpty(message = "Год поступления не может быть пустым.")
     private String weekOfEntry;
     @NotEmpty(message = "Группа не может быть пустой.")
     private String groups;
+
+    public StudentDto() {
+    }
+
+    public StudentDto(Student student) {
+        this.id = student.getId();
+        this.lastName = student.getLastName();
+        this.firstName = student.getFirstName();
+        this.weekOfEntry = String.valueOf(student.getWeekOfEntry());
+        this.groups = student.getGroups().getName();
+    }
 
     public String getLastName() {
         return lastName;
