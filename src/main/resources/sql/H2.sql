@@ -1,22 +1,22 @@
 INSERT INTO groups (`id`, `name`)
 VALUES
-('1', 'MN-08-1'),
-('2', 'MN-08-2');
+('1', 'МН-08-1'),
+('2', 'МН-08-2');
 
 INSERT INTO student (`id`, `firstName`,`lastName`,`weekOfEntry`,`groups_id`)
 	VALUES
-('1', 'GreG','Ostapenko','2014-09-01','2'),
-('2', 'Gustavo','Achong','2014-09-01','1'),
-('3', 'Catherine','Abel','2014-09-01','2'),
-('4', 'Humberto','Adams','2014-09-01','1'),
-('5', 'Humberto','Achong','2014-09-01','1');
+('1', 'Дима','Вольный','2014-09-01','2'),
+('2', 'Дима','Купер','2014-09-01','1'),
+('3', 'Антон','Антонов','2014-09-01','2'),
+('4', 'Петр','Петров','2014-09-01','1'),
+('5', 'Лев','Толстой','2014-09-01','1');
 
 INSERT INTO discipline (`id`, `name`)
 VALUES
-('1', 'Mathematics'),
-('2', 'Physics'),
-('3', 'History'),
-('4', 'Physical Education');
+('1', 'Математика'),
+('2', 'Физика'),
+('3', 'История'),
+('4', 'Физкультура');
 
 
 INSERT INTO term (`id`, `numberTerm`,`week`)

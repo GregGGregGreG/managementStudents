@@ -28,8 +28,18 @@ public class StudentProgressService {
         repository.delete(studentProgress);
     }
 
-    public List<StudentProgress> getDisciplineForStudentInTerm(long studentId,long termId) {
-        return repository.getDisciplineForStudentInTerm(studentId,termId);
+    public List<StudentProgress> getDisciplineForStudentInTerm(Long studentId, Long termId) {
+        if (termId == null) {
+            termId = 1l;
+        }
+        return repository.getDisciplineForStudentInTerm(studentId, termId);
+    }
+
+    public Double getAverageRatingForStudentInTerm(Long studentId, Long termId) {
+        if (termId == null) {
+            termId = 1l;
+        }
+        return repository.getAverageRatingForStudentInTerm(studentId, termId);
     }
 
     public List<StudentProgress> findAll() {

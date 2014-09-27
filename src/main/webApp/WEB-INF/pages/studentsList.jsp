@@ -15,7 +15,7 @@
     <div class="row">
         <jsp:include page="navBar.jsp"/>
         <div class="col-sm-8" style="padding: 0px 45px 0px">
-            <form:form action="/student/handlerListsStudents" method="post" role="form">
+            <form:form action="/student/handlerListsStudents" method="post" role="form" >
                 <div>
                     <div class="row">
                         <div class="col-sm-7">

@@ -2,9 +2,9 @@ package greg.studentProgress.controller;
 
 import greg.studentProgress.dto.StudentDto;
 import greg.studentProgress.dto.StudentProgressDto;
+import greg.studentProgress.dto.StudentProgressListDto;
 import greg.studentProgress.persistence.domain.Groups;
 import greg.studentProgress.persistence.domain.Student;
-import greg.studentProgress.persistence.domain.StudentProgress;
 import greg.studentProgress.persistence.service.GroupsService;
 import greg.studentProgress.persistence.service.StudentProgressService;
 import greg.studentProgress.persistence.service.StudentService;
@@ -14,10 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,7 +43,8 @@ public class StudentController {
 
     @RequestMapping(value = "/handlerListsStudents", method = RequestMethod.POST)
     public String handlerListsStudents(@RequestParam(value = "id", required = false) Long[] id,
-                                       @RequestParam String action) {
+                                       @RequestParam String action,
+                                       RedirectAttributes redirectAttrs) {
         if (!(id == null)) {
             switch (action) {
                 case "remove":
@@ -54,9 +57,8 @@ public class StudentController {
                         return "redirect:/student/admin/studentModifying/" + currID;
                     }
                 case "studentListProgress":
-                    for (Long currID : id) {
-                        return "redirect:/student/studentProgress/" + currID;
-                    }
+                    redirectAttrs.addAttribute("id", id);
+                    return "redirect:/student/studentProgress/{id}";
             }
         }
         if (action.equals("creating")) {
@@ -65,31 +67,39 @@ public class StudentController {
         return "redirect:/student/studentsList";
     }
 
-    @RequestMapping(value = "/studentProgress/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/studentProgress/{id}", method = RequestMethod.GET)
     public String studentProgress(ModelMap model,
-                                  @PathVariable("userId") Long userId,
+                                  @PathVariable("id") Long[] userId,
                                   @ModelAttribute StudentProgressDto dto) {
 
-        long termId = dto.getTermId();
+        List<StudentProgressDto> dtoList = new ArrayList<>();
 
-        List<StudentProgress> studentProgressList = studentProgressService.getDisciplineForStudentInTerm(userId, termId);
+        for (Long studentId : userId) {
+            if (studentId.equals(dto.getStudentId())) {
+                Long termId = dto.getTermId();
 
-        double allRating = 0;
-        int numberOfRatings = 0;
-
-        for (StudentProgress progress : studentProgressList) {
-            numberOfRatings++;
-            allRating += progress.getRating();
+            }
         }
 
-        double averageRating = allRating / numberOfRatings;
-        if (averageRating < 0) averageRating = 0;
+        for (Long studentId : userId) {
+            Long termId = 1L;
+            if (studentId.equals(dto.getStudentId())) {
+                termId = dto.getTermId();
+            }
+            if (!(studentProgressService.getAverageRatingForStudentInTerm(studentId, termId) == null)) {
+                Double averageRating = studentProgressService.getAverageRatingForStudentInTerm(studentId, termId);
+                dtoList.add(new StudentProgressDto(studentService.findById(studentId), averageRating, studentProgressService.getDisciplineForStudentInTerm(studentId, termId)));
+            } else {
+                dtoList.add(new StudentProgressDto(studentService.findById(studentId), studentProgressService.getDisciplineForStudentInTerm(studentId, termId)));
+            }
+        }
 
-        model.addAttribute("SPDto", new StudentProgressDto());
-        model.addAttribute("modifyingStudent", studentService.findById(userId));
+
+        model.addAttribute("StudentProgressListDto", new StudentProgressListDto(dtoList));
         model.addAttribute("termList", termService.findAll());
-        model.addAttribute("averageRating", averageRating);
-        model.addAttribute("studentProgressList", studentProgressList);
+        model.addAttribute("StudentProgressDto", new StudentProgressDto());
+
+
         return "studentProgress";
     }
 

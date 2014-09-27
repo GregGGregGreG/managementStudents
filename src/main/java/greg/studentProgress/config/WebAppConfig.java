@@ -3,7 +3,10 @@ package greg.studentProgress.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -122,6 +125,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ResourceDatabasePopulator initDatabase(DataSource dataSource) throws Exception {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.setSqlScriptEncoding("UTF-8");
         populator.addScript(new ClassPathResource("sql/H2.sql"));
         populator.populate(dataSource.getConnection());
         return populator;

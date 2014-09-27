@@ -1,4 +1,4 @@
-INSERT INTO `student_progress`.`groups` (`id`, `name`)
+INSERT INTO student_progress.groups (`id`, `name`)
 VALUES
 ('1', 'MN-08-1'),
 ('2', 'MN-08-2');
