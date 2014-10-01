@@ -10,10 +10,10 @@ import java.io.Serializable;
 public class StudentDto implements Serializable {
     private Long id;
     @NotEmpty(message = "Фамилия не может быть пустой.")
-    @Size(min = 3, max = 45, message = "Минимальная длина 3 символа")
+    @Size(min = 3, max = 45, message = "Минимальная длина 3 символа максимальная 45")
     private String lastName;
     @NotEmpty(message = "Имя не может быть пустым.")
-    @Size(min = 3, max = 45, message = "Минимальная длина 3 символа")
+    @Size(min = 3, max = 45, message = "Минимальная длина 3 символа максимальная 45")
     private String firstName;
     @NotEmpty(message = "Год поступления не может быть пустым.")
     private String weekOfEntry;

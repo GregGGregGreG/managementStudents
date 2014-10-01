@@ -33,7 +33,7 @@ public class DisciplineService {
         return repository.findByName(name);
     }
 
-    public Discipline findById(long id) {
+    public Discipline findById(Long id) {
         return repository.findById(id);
     }
 

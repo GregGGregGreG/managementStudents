@@ -45,5 +45,4 @@ public class Term extends AbstractEntity {
     public void setCurriculum(Set<Curriculum> curriculum) {
         this.curriculum = curriculum;
     }
-
 }

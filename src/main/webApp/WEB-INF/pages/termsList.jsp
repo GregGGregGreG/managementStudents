@@ -6,10 +6,9 @@
 <html>
 <head>
     <title>TermList</title>
-    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-
-</head>
+    <link href="<c:url value="/pages/css/bootstrap.css" />" rel="stylesheet">
+    <link href="<c:url value="/pages/css/bootstrap.min.css" />" rel="stylesheet">
+ </head>
 <body>
 <jsp:include page="header.jsp"/>
 <div class="container">

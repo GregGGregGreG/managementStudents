@@ -6,178 +6,102 @@
 <html>
 <head>
     <title>StudentsProgress</title>
-    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<c:url value="/pages/css/bootstrap.css" />" rel="stylesheet">
+    <link href="<c:url value="/pages/css/bootstrap.min.css" />" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <%--<div class="col-sm-10" style="padding: 0px 45px">--%>
-        <%--<c:if test="${!empty modifyingStudent}">--%>
-        <%--<h4 class="text-muted" style="margin-top: 10px">Отображена успеваемость для следующего--%>
-        <%--студента:</h4>--%>
-        <%--<table class="table table-bordered table-striped table-hover table-condensed">--%>
-        <%--<thead>--%>
-        <%--<tr>--%>
-        <%--<th class="text-info">Фамилия</th>--%>
-        <%--<th class="text-info">Имя</th>--%>
-        <%--<th class="text-info">Группа</th>--%>
-        <%--<th class="text-info">Дата поступления</th>--%>
-        <%--</tr>--%>
-        <%--</thead>--%>
-        <%--<tbody>--%>
-        <%--<tr>--%>
-        <%--<td>${modifyingStudent.lastName}</td>--%>
-        <%--<td>${modifyingStudent.firstName}</td>--%>
-        <%--<td>${modifyingStudent.groups.name}</td>--%>
-        <%--<td>${modifyingStudent.weekOfEntry}</td>--%>
-        <%--</tr>--%>
-        <%--</tbody>--%>
-        <%--</table>--%>
-        <%--</c:if>--%>
-        <%--<div class="row" style="padding: 20px 20px 0px 0px">--%>
-        <%--<div class="col-sm-5 ">--%>
-        <%--<c:if test="${!empty studentProgressList}">--%>
-        <%--<table class="table table-bordered table-striped table-hover table-condensed">--%>
-        <%--<thead>--%>
-        <%--<tr>--%>
-        <%--<th class="text-info">Дисциплина</th>--%>
-        <%--<th class="text-info">Оценка</th>--%>
-        <%--</tr>--%>
-        <%--</thead>--%>
-        <%--<tbody>--%>
-        <%--<c:forEach items="${studentProgressList}" var="studentProgress">--%>
-        <%--<tr>--%>
-        <%--<td>${studentProgress.pk.curriculum.pk.discipline.name}</td>--%>
-        <%--<td>${studentProgress.rating}</td>--%>
-        <%--</tr>--%>
-        <%--</c:forEach>--%>
-        <%--</tbody>--%>
-        <%--</table>--%>
-        <%--</c:if>--%>
-        <%--</div>--%>
-        <%--<div class="col-sm-6 ">--%>
-        <%--<div>--%>
-        <%--<form:form method="get" action="/student/studentProgress/${modifyingStudent.id}" role="form"--%>
-        <%--modelAttribute="SPDto">--%>
-        <%--<div class=" form-horizontal">--%>
-        <%--<label for="term" class="col-sm-5 control-label ">Выбрать семестр:</label>--%>
-
-        <%--<div class="col-sm-3">--%>
-        <%--<form:select id="term" name="term" class="form-control" path="termId">--%>
-        <%--<c:forEach items="${termList}" var="term">--%>
-        <%--<option>${term.numberTerm}</option>--%>
-        <%--</c:forEach>--%>
-        <%--</form:select>--%>
-        <%--</div>--%>
-        <%--<button type="submit" class="btn btn-success">Выбрать</button>--%>
-        <%--</div>--%>
-        <%--</form:form>--%>
-        <%--</div>--%>
-        <%--<div style="padding: 0px 30px">--%>
-        <%--<c:if test="${!empty studentProgressList }">--%>
-        <%--<h4 class="text-muted">Средняя оценка за симестр ${averageRating}</h4>--%>
-        <%--</c:if>--%>
-        <%--</div>--%>
-        <%--</div>--%>
-        <%--</div>--%>
-        <%--</div>--%>
-
-
         <div class="col-sm-10" style="padding: 0px 45px">
             <%--@elvariable id="StudentProgressListDto" type="greg.studentProgress.dto.StudentProgressListDto"--%>
-            <%--<c:if test="${!empty StudentProgressListDto.progressDtoList}">--%>
+                <form:form method="get"
+                           action="${requestScope['javax.servlet.forward.request_uri']}"
+                           role="form"
+                           modelAttribute="StudentProgressListDto">
+                    <c:forEach items="${StudentProgressListDto.progressDtoList}" var="StudentProgress">
 
-            <c:forEach items="${StudentProgressListDto.progressDtoList}" var="StudentProgress">
-
-                <h4 class="text-muted" style="margin-top: 10px">Отображена успеваемость для следующего
-                    студента:</h4>
-                <table class="table table-bordered table-striped table-hover table-condensed">
-                    <thead>
-                    <tr>
-                        <th class="text-info">Фамилия</th>
-                        <th class="text-info">Имя</th>
-                        <th class="text-info">Группа</th>
-                        <th class="text-info">Дата поступления</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>${StudentProgress.student.firstName}</td>
-                        <td>${StudentProgress.student.firstName}</td>
-                        <td>${StudentProgress.student.groups.name}</td>
-                        <td>${StudentProgress.student.weekOfEntry}</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="row">
-                    <div class="col-sm-5 ">
-                        <c:if test="${!empty StudentProgress.studentProgressList}">
-                            <h4 class="text-info">Список дисциплин</h4>
-                            <table class="table table-bordered table-striped table-hover table-condensed">
-                                <thead>
-                                <tr>
-                                <th class="text-info">Дисциплина</th>
-                                <th class="text-info">Оценка</th>
+                        <h4 class="text-muted" style="margin-top: 10px">Отображена успеваемость для следующего
+                            студента:</h4>
+                        <table class="table table-bordered table-striped table-hover table-condensed">
+                            <thead>
+                            <tr>
+                                <th class="text-info">Фамилия</th>
+                                <th class="text-info">Имя</th>
+                                <th class="text-info">Группа</th>
+                                <th class="text-info">Дата поступления</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${StudentProgress.studentProgressList}" var="progress">
-                                <tr>
-                                    <td>${progress.pk.curriculum.pk.discipline.name}</td>
-                                    <td>${progress.rating}</td>
-                                </tr>
-                            </c:forEach>
+                            <tr>
+                                <td>${StudentProgress.student.lastName}</td>
+                                <td>${StudentProgress.student.firstName}</td>
+                                <td>${StudentProgress.student.groups.name}</td>
+                                <td>${StudentProgress.student.weekOfEntry}</td>
+                            </tr>
                             </tbody>
                         </table>
-                    </c:if>
-                        <c:if test="${empty StudentProgress.studentProgressList}">
-                            <h4 class="text-info" style="margin-top: 30px">Список дисциплин пуст</h4>
-                        </c:if>
-                    </div>
-                    <div class="col-sm-6" style="margin-top: 25px">
-                        <div>
-
-                            <form:form method="get"
-                                       action="${requestScope['javax.servlet.forward.request_uri']}"
-                                       role="form"
-                                       modelAttribute="StudentProgressDto">
-                                <div style="display: none">
-                                    <form:input path="studentId" value="${StudentProgress.student.id}"/>
-                                </div>
-                                <div class=" form-horizontal">
-                                    <label for="term" class="col-sm-5 control-label ">Выбрать семестр:</label>
-
-                                    <div class="col-sm-3">
-                                        <form:select id="term" name="term" class="form-control"
-                                                     path="termId">
-                                            <%--@elvariable id="termList" type="java.util.List"--%>
-                                            <c:forEach items="${termList}" var="term">
-                                            <option>${term.numberTerm}</option>
-                                        </c:forEach>
-                                    </form:select>
-                                </div>
-                                <button type="submit" class="btn btn-success">Выбрать</button>
-                            </div>
-                            </form:form>
-                        </div>
-                        <div style="padding: 0px 30px">
+                        <div class="row">
+                            <div class="col-sm-5 ">
                                 <c:if test="${!empty StudentProgress.studentProgressList}">
-                            <h4 class="text-muted">Средняя оценка за симестр ${StudentProgress.averageRating}</h4>
+                                    <h4 class="text-info">Список дисциплин за ${StudentProgress.termId} семестр</h4>
+                                    <table class="table table-bordered table-striped table-hover table-condensed">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-info">Дисциплина</th>
+                                            <th class="text-info">Оценка</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <c:forEach items="${StudentProgress.studentProgressList}" var="progress">
+                                            <tr>
+                                                <td>${progress.pk.curriculum.pk.discipline.name}</td>
+                                                <td>${progress.rating}</td>
+                                            </tr>
+                                        </c:forEach>
+                                        </tbody>
+                                    </table>
                                 </c:if>
+                                <c:if test="${empty StudentProgress.studentProgressList}">
+                                    <h4 class="text-danger" style="margin-top: 30px">Успеваемость за
+                                            ${StudentProgress.termId}
+                                        семестр отсутствует</h4>
+                                </c:if>
+                            </div>
+                            <div class="col-sm-6" style="margin-top: 25px">
+                                <div>
+                                    <div style="display: none">
+                                        <input name="termsIds"
+                                               value="${StudentProgress.termId}"/>
+                                    </div>
+                                    <div class=" form-horizontal">
+                                        <label for="term" class="col-sm-5 control-label ">Выбрать семестр:</label>
+
+                                        <div class="col-sm-3">
+                                            <select id="term" name="term" class="form-control">
+                                                <c:forEach items="${termList}" var="term">
+                                                    <option>${term.numberTerm}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </div>
+                                        <button type="submit" name="studentId" value="${StudentProgress.student.id}"
+                                                class="btn btn-success">Выбрать
+                                        </button>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 30px">
+                                    <c:if test="${!empty StudentProgress.studentProgressList}">
+                                        <h4 class="text-muted">Средняя оценка за
+                                            симестр ${StudentProgress.averageRating}</h4>
+                                    </c:if>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </c:forEach>
+                </form:form>
         </div>
-
-
-            </c:forEach>
-            <%--</c:if>--%>
-        </div>
-
     </div>
-</div>
 </div>
 </body>
 </html>

@@ -28,25 +28,28 @@
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="lastName">Фамилия:</form:label>
-                                <form:input path="lastName" class="form-control" placeholder="Фамилия:"/>
+                                <form:input path="lastName" class="form-control" placeholder="Введите фамилию:"/>
                             </div>
-                            <div class="col-sm-5" style="margin-top: 30px">
+                            <div class="col-sm-6" style="margin-top: 30px">
                                 <form:errors path="lastName" cssClass="text-danger"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="firstName">Имя:</form:label>
-                                <form:input path="firstName" class="form-control" placeholder="Имя"/>
+                                <form:input path="firstName" class="form-control" placeholder="Введите имя:"/>
                             </div>
-                            <div class="col-sm-5" style="margin-top: 30px">
+                            <div class="col-sm-6" style="margin-top: 30px">
                                 <form:errors path="firstName" cssClass="text-danger"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="groups">Группа:</form:label>
-                                <form:input path="groups" class="form-control" placeholder="Группа"/>
+                                <form:select path="groups" id="groups" name="groups" class="form-control">
+                                    <form:option value="" label="Выберите группу"/>
+                                    <form:options items="${groups}" />
+                                </form:select>
                             </div>
                             <div class="col-sm-5" style="margin-top: 30px">
                                 <form:errors path="groups" cssClass="text-danger"/>
@@ -55,7 +58,7 @@
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="weekOfEntry">Дата поступления:</form:label>
-                                <form:input path="weekOfEntry" class="form-control" placeholder="Дата поступления"/>
+                                <form:input path="weekOfEntry" class="form-control" placeholder="Введите год поступления"/>
                                 <button type="submit" class="btn btn-success" style="margin-top: 20px">Создать</button>
                             </div>
                             <div class="col-sm-5" style="margin-top: 30px">
@@ -70,28 +73,29 @@
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="lastName">Фамилия:</form:label>
-                                <form:input path="lastName" class="form-control" placeholder="Фамилия:"
+                                <form:input path="lastName" class="form-control" placeholder="Введите фамилию:"
                                             value="${student.lastName}"/>
                             </div>
-                            <div class="col-sm-5" style="margin-top: 30px">
+                            <div class="col-sm-6" style="margin-top: 30px">
                                 <form:errors path="lastName" cssClass="text-danger"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="firstName">Имя:</form:label>
-                                <form:input path="firstName" class="form-control" placeholder="Имя"
+                                <form:input path="firstName" class="form-control" placeholder="Введите имя:"
                                             value="${student.firstName}"/>
                             </div>
-                            <div class="col-sm-5" style="margin-top: 30px">
+                            <div class="col-sm-6" style="margin-top: 30px">
                                 <form:errors path="firstName" cssClass="text-danger"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="groups">Группа:</form:label>
-                                <form:input path="groups" class="form-control" placeholder="Группа"
-                                            value="${student.groups}"/>
+                                <form:select path="groups" id="groups" name="groups" class="form-control">
+                                    <form:options items="${groups}"/>
+                                </form:select>
                             </div>
                             <div class="col-sm-5" style="margin-top: 30px">
                                 <form:errors path="groups" cssClass="text-danger"/>
@@ -100,9 +104,10 @@
                         <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="weekOfEntry">Дата поступления:</form:label>
-                                <form:input path="weekOfEntry" class="form-control" placeholder="Дата поступления"
+                                <form:input path="weekOfEntry" class="form-control" placeholder="Введите год поступления"
                                             value="${student.weekOfEntry}"/>
-                                <button type="submit" class="btn btn-success" style="margin-top: 20px">Применить
+                                <button type="submit" class="btn btn-success" name="id" value="${student.id}"
+                                        style="margin-top: 20px">Применить
                                 </button>
                             </div>
                             <div class="col-sm-5" style="margin-top: 30px">

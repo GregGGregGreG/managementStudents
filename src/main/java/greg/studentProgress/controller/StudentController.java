@@ -5,6 +5,7 @@ import greg.studentProgress.dto.StudentProgressDto;
 import greg.studentProgress.dto.StudentProgressListDto;
 import greg.studentProgress.persistence.domain.Groups;
 import greg.studentProgress.persistence.domain.Student;
+import greg.studentProgress.persistence.domain.StudentProgress;
 import greg.studentProgress.persistence.service.GroupsService;
 import greg.studentProgress.persistence.service.StudentProgressService;
 import greg.studentProgress.persistence.service.StudentService;
@@ -70,42 +71,48 @@ public class StudentController {
     @RequestMapping(value = "/studentProgress/{id}", method = RequestMethod.GET)
     public String studentProgress(ModelMap model,
                                   @PathVariable("id") Long[] userId,
-                                  @ModelAttribute StudentProgressDto dto) {
-
+                                  @ModelAttribute StudentProgressListDto dto,
+                                  @RequestParam(value = "termsIds", required = false) Long[] termsIds,
+                                  @RequestParam(value = "term", required = false) Long[] term) {
         List<StudentProgressDto> dtoList = new ArrayList<>();
-
-        for (Long studentId : userId) {
-            if (studentId.equals(dto.getStudentId())) {
-                Long termId = dto.getTermId();
-
+        if (termsIds != null) {
+            for (int i = 0; i < userId.length; i++) {
+                Student student = studentService.findById(userId[i]);
+                Long studentId = student.getId();
+                Long termId = termsIds[i];
+                if (studentId.equals(dto.getStudentId())) {
+                    termId = term[i];
+                }
+                if (studentProgressService.getAverageRatingForStudentInTerm(studentId, termId) != null) {
+                    Double averageRating = studentProgressService.getAverageRatingForStudentInTerm(studentId, termId);
+                    List<StudentProgress> studentProgressList = studentProgressService.getDisciplineForStudentInTerm(studentId, termId);
+                    dtoList.add(new StudentProgressDto(student, termId, averageRating, studentProgressList));
+                } else {
+                    dtoList.add(new StudentProgressDto(student, termId));
+                }
+            }
+        } else {
+            for (Long studentId : userId) {
+                Long termId = 1L;
+                Student student = studentService.findById(studentId);
+                if (!(studentProgressService.getAverageRatingForStudentInTerm(studentId, termId) == null)) {
+                    Double averageRating = studentProgressService.getAverageRatingForStudentInTerm(studentId, termId);
+                    List<StudentProgress> studentProgressList = studentProgressService.getDisciplineForStudentInTerm(studentId, termId);
+                    dtoList.add(new StudentProgressDto(student, termId, averageRating, studentProgressList));
+                } else {
+                    dtoList.add(new StudentProgressDto(student, termId));
+                }
             }
         }
-
-        for (Long studentId : userId) {
-            Long termId = 1L;
-            if (studentId.equals(dto.getStudentId())) {
-                termId = dto.getTermId();
-            }
-            if (!(studentProgressService.getAverageRatingForStudentInTerm(studentId, termId) == null)) {
-                Double averageRating = studentProgressService.getAverageRatingForStudentInTerm(studentId, termId);
-                dtoList.add(new StudentProgressDto(studentService.findById(studentId), averageRating, studentProgressService.getDisciplineForStudentInTerm(studentId, termId)));
-            } else {
-                dtoList.add(new StudentProgressDto(studentService.findById(studentId), studentProgressService.getDisciplineForStudentInTerm(studentId, termId)));
-            }
-        }
-
-
         model.addAttribute("StudentProgressListDto", new StudentProgressListDto(dtoList));
         model.addAttribute("termList", termService.findAll());
-        model.addAttribute("StudentProgressDto", new StudentProgressDto());
-
-
         return "studentProgress";
     }
 
     @RequestMapping(value = "/admin/studentCreating", method = RequestMethod.GET)
     public String studentCreating(ModelMap model) {
         model.addAttribute("student", new StudentDto());
+        model.addAttribute("groups", groupsService.findAll());
         return "studentCreating";
     }
 
@@ -114,21 +121,20 @@ public class StudentController {
                                    @PathVariable("userId") Long userId) {
         Student modifyingStudent = (studentService.findById(userId));
         model.addAttribute("student", new StudentDto(modifyingStudent));
+        model.addAttribute("groups", groupsService.findAll());
         return "studentCreating";
     }
 
     @RequestMapping(value = "/admin/studentSave", method = RequestMethod.POST)
-    public String studentSave(@Valid @ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
+    public String studentSave(ModelMap model, @Valid @ModelAttribute("student") StudentDto dto, BindingResult result) throws ParseException {
         if (result.hasErrors()) {
+            model.addAttribute("groups", groupsService.findAll());
             return "studentCreating";
         }
-
         Student student = studentService.findById(dto.getId());
         if (student == null) {
             student = new Student();
         }
-
-
         String lastName = dto.getLastName();
         String firstName = dto.getFirstName();
 
@@ -142,6 +148,5 @@ public class StudentController {
         student.setAllParam(firstName, lastName, weekOfEntry, group);
         studentService.add(student);
         return "redirect:/student/studentsList";
-
     }
- }
+}

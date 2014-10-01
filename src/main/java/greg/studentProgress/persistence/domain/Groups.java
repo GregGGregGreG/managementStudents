@@ -38,4 +38,8 @@ public class Groups extends AbstractEntity {
         this.students = students;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

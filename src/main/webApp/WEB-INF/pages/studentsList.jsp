@@ -6,8 +6,8 @@
 <html>
 <head>
     <title>StudentsList</title>
-    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet">
-    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<c:url value="/pages/css/bootstrap.css" />" rel="stylesheet">
+    <link href="<c:url value="/pages/css/bootstrap.min.css" />" rel="stylesheet">
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -44,7 +44,7 @@
                 </div>
                 <div>
                     <c:if test="${!empty students}">
-                        <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Список студентов</h4>
+                        <h4 class="text-muted" style="margin-top: 10px">Список студентов</h4>
                         <table class="table table-bordered table-striped table-hover table-condensed">
                             <thead>
                             <tr>

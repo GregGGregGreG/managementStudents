@@ -13,7 +13,7 @@ public class Discipline extends AbstractEntity {
     private Set<Curriculum> Curriculums = Collections.emptySet();
 
     public Discipline() {
-        super();
+
     }
 
     public Discipline(String name) {
