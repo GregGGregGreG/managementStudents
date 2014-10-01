@@ -1,12 +1,17 @@
 package greg.studentProgress.dto;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
 public class CurriculumDto implements Serializable {
     private Long id;
     private String nameTerm;
-    private int week;
+    @NotNull(message = "Количество недель не должно быть пустым")
+    @DecimalMax(value = "25",message = "Максимум 25 недель")
+    private Integer week;
+    @NotNull(message = "Дисциплины не выбранны")
     private List<String> disciplineList;
 
     public String getNameTerm() {
@@ -17,11 +22,11 @@ public class CurriculumDto implements Serializable {
         this.nameTerm = nameTerm;
     }
 
-    public int getWeek() {
+    public Integer getWeek() {
         return week;
     }
 
-    public void setWeek(int week) {
+    public void setWeek(Integer week) {
         this.week = week;
     }
 
@@ -49,11 +54,11 @@ public class CurriculumDto implements Serializable {
 
         CurriculumDto that = (CurriculumDto) o;
 
-        if (week != that.week) return false;
         if (disciplineList != null ? !disciplineList.equals(that.disciplineList) : that.disciplineList != null)
             return false;
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (nameTerm != null ? !nameTerm.equals(that.nameTerm) : that.nameTerm != null) return false;
+        if (week != null ? !week.equals(that.week) : that.week != null) return false;
 
         return true;
     }
@@ -62,7 +67,7 @@ public class CurriculumDto implements Serializable {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (nameTerm != null ? nameTerm.hashCode() : 0);
-        result = 31 * result + week;
+        result = 31 * result + (week != null ? week.hashCode() : 0);
         result = 31 * result + (disciplineList != null ? disciplineList.hashCode() : 0);
         return result;
     }

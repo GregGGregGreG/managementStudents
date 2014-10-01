@@ -13,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,47 +21,35 @@ import java.util.List;
 @Controller
 @RequestMapping("/term")
 public class TermController {
-
     @Autowired
     private CurriculumService curriculumService;
-
     @Autowired
     private DisciplineService disciplineService;
-
     @Autowired
     private TermService termService;
 
     @RequestMapping(value = "/termsList", method = RequestMethod.GET)
-    public String termList(ModelMap model,
-                           @ModelAttribute("term") CurriculumDto dto) {
-        model.addAttribute("term", new CurriculumDto());
-        model.addAttribute("curriculum", termService.findAll());
-        if (!(dto.getNameTerm() == null)) {
-            model.addAttribute("listDiscipline", curriculumService.findByTerm(Integer.parseInt(dto.getNameTerm())));
-            model.addAttribute("weekTerm", termService.findByName(Integer.parseInt(dto.getNameTerm())));
-        }
+    public String termList(ModelMap model, @ModelAttribute("curriculum") CurriculumDto dto) {
+        model.addAttribute("terms", termService.findAll());
         return "termsList";
     }
 
     @RequestMapping(value = "/termsList/{nameTerm}", method = RequestMethod.GET)
-    public String termListId(ModelMap model,
-                             @PathVariable("nameTerm") int nameTerm) {
-        model.addAttribute("term", new CurriculumDto());
-        model.addAttribute("curriculum", termService.findAll());
+    public String termListId(ModelMap model, @PathVariable("nameTerm") int nameTerm) {
+        model.addAttribute("curriculum", new CurriculumDto());
+        model.addAttribute("terms", termService.findAll());
         model.addAttribute("listDiscipline", curriculumService.findByTerm(nameTerm));
         model.addAttribute("weekTerm", termService.findByName(nameTerm));
         model.addAttribute("termId", termService.findByName(nameTerm).getId());
+        model.addAttribute("nameTerm",nameTerm );
         return "termsList";
     }
 
-
     @RequestMapping(value = "termsList/admin/handlerTermsList", method = RequestMethod.POST)
-    public String studentProgressList(
-            @ModelAttribute("term") CurriculumDto dto,
-            @RequestParam String action) {
+    public String studentProgressList(@ModelAttribute("curriculum") CurriculumDto dto, @RequestParam String action) {
         switch (action) {
             case "remove":
-                termService.remove(termService.findByName(Integer.parseInt(dto.getNameTerm())));
+                termService.remove(termService.findById(dto.getId()));
                 return "redirect:/term/termsList/";
             case "modifying":
                 return "redirect:/term/admin/termModifying/" + dto.getId();
@@ -71,73 +60,73 @@ public class TermController {
     }
 
     @RequestMapping(value = "/admin/termCreating", method = RequestMethod.GET)
-    public String termCreating(ModelMap model) {
-        String massage = "Для создания семестра заполните следующие данные и нажмите кнопку  \"Создать\" ";
-        String nameButton = "Создать";
-        model.addAttribute("curriculum", new CurriculumDto());
+    public String termCreating(ModelMap model, @ModelAttribute("curriculum") CurriculumDto dto) {
         model.addAttribute("disciplineList", disciplineService.findAll());
-        model.addAttribute("massage", massage);
-        model.addAttribute("nameButton", nameButton);
         return "termCreating";
     }
 
     @RequestMapping(value = "/admin/termModifying/{termId}", method = RequestMethod.GET)
-    public String disciplineModifying(ModelMap model,
-                                      @PathVariable("termId") Long termId) {
-        String massage = "Для модификации семестра отредактируйте данные и нажмите кнопку  \"Применить\" ";
-        String nameButton = "Применить";
-        Term modifyingTerm = termService.findById(termId);
-        model.addAttribute("curriculum", new CurriculumDto());
-        model.addAttribute("modifyingTerm", modifyingTerm);
+    public String disciplineModifying(ModelMap model, @PathVariable("termId") Long termId,
+                                      @ModelAttribute("curriculum") CurriculumDto dto) {
+        Term term = termService.findById(termId);
+        CurriculumDto modifyingCurriculum = new CurriculumDto();
+        modifyingCurriculum.setId(term.getId());
+        modifyingCurriculum.setWeek(term.getWeek());
+        model.addAttribute("modifyingCurriculum", modifyingCurriculum);
         model.addAttribute("disciplineList", disciplineService.findAll());
-        model.addAttribute("massage", massage);
-        model.addAttribute("nameButton", nameButton);
         return "termCreating";
     }
 
-
-    @RequestMapping(value = "admin/termSave", method = RequestMethod.POST)
-    public String saveTerm(@ModelAttribute("curriculum") CurriculumDto dto, BindingResult result) {
-        int nameTerm;
-        if (termService.findAll().size() > 0) {
-            nameTerm = termService.findAll().get(termService.findAll().size() - 1).getNumberTerm() + 1;
-        } else {
-            nameTerm = 1;
+    @RequestMapping(value = "admin/termCreating", method = RequestMethod.POST)
+    public String saveTerm(ModelMap model, @Valid @ModelAttribute("curriculum") CurriculumDto dto, BindingResult result) {
+        if (result.hasErrors()) {
+            model.addAttribute("disciplineList", disciplineService.findAll());
+            return "termCreating";
         }
+        int nameTerm = 1;
+        List<Term> termList = termService.findAll();
+        if (termList.size() > 0) {
+            nameTerm = termList.get(termList.size() - 1).getNumberTerm() + 1;
+        }
+
         int week = dto.getWeek();
         termService.add(new Term(nameTerm, week));
+        Term term = termService.findByName(nameTerm);
         for (String str : dto.getDisciplineList()) {
-            Term term = termService.findByName(nameTerm);
             Discipline discipline = disciplineService.findByName(str);
             curriculumService.add(term, discipline);
         }
-        return "redirect:/term/termsList";
+        return "redirect:/term/termsList/" + nameTerm;
     }
 
-    @RequestMapping(value = "admin/termModifying/termSave", method = RequestMethod.POST)
-    public String termModifyingSave(@ModelAttribute("curriculum") CurriculumDto dto, BindingResult result) throws ParseException {
-        Term termModifying = termService.findById(dto.getId());
+    @RequestMapping(value = "admin/termModifying/{termId}", method = RequestMethod.POST)
+    public String termModifyingSave(ModelMap model, @PathVariable("termId") Long termId, @Valid @ModelAttribute("curriculum") CurriculumDto dto, BindingResult result) throws ParseException {
+        if (result.hasErrors()) {
+            Term term = termService.findById(termId);
+            CurriculumDto modifyingCurriculum = new CurriculumDto();
+            modifyingCurriculum.setId(term.getId());
+            model.addAttribute("modifyingCurriculum", modifyingCurriculum);
+            model.addAttribute("disciplineList", disciplineService.findAll());
+            return "termCreating";
+        }
+
+        Term termModifying = termService.findById(termId);
         int week = dto.getWeek();
         int nameTerm = termModifying.getNumberTerm();
         termModifying.setWeek(week);
         termService.add(termModifying);
-        //trash!!
+
         List<Curriculum> curriculumList = curriculumService.findByTerm(nameTerm);
         ArrayList<String> curriculumListNameDiscipline = new ArrayList<>();
         int curriculumListSize = curriculumList.size();
 
-        System.out.println("curriculumList size" + curriculumList.size());
         for (Curriculum curriculum : curriculumList) {
             curriculumListNameDiscipline.add(curriculum.getDiscipline().getName());
-            System.out.println("curriculumList " + curriculum.getDiscipline().getName());
         }
 
         List<String> disciplineList = dto.getDisciplineList();
         int disciplineListSize = disciplineList.size();
-        System.out.println("disciplineList size" + disciplineList.size());
-        for (String discipline : disciplineList) {
-            System.out.println("disciplineList " + discipline);
-        }
+
         if (disciplineListSize > curriculumListSize) {
             for (String discipline : disciplineList) {
                 if (!(curriculumListNameDiscipline.contains(discipline))) {
@@ -151,7 +140,7 @@ public class TermController {
                 }
             }
         }
-        return "redirect:/term/termsList";
+        return "redirect:/term/termsList/" + nameTerm;
     }
 }
 

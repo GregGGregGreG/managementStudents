@@ -14,23 +14,65 @@
     <div class="row">
         <jsp:include page="navBar.jsp"/>
         <div class="col-sm-9" style="padding: 0px 45px">
-            <h4 class="text-muted">${massage}</h4>
-            <form:form method="post" action="termSave" commandName="curriculum" role="form">
-                <div style="display: none">
-                    <form:input path="id" value="${modifyingTerm.id}"/>
-                </div>
-                <div class="form-groups " style="width: 50%">
-                    <form:label path="week">Длительность (в неделях)</form:label>
-                    <form:input path="week" class="form-control" placeholder="Длительность (в неделях):"
-                            value="${modifyingTerm.week}"/>
+            <c:choose>
+                <c:when test="${empty modifyingCurriculum.id}">
+                    <form:form method="post" action="/term/admin/termCreating" commandName="curriculum" role="form">
+                        <h4 class="text-muted">Для создания семестра заполните следующие данные и нажмите кнопку
+                            "Cоздать"</h4>
 
-                    <form:label path="disciplineList">Дисциплины в семестре</form:label>
-                    <form:select path="disciplineList"  class="form-control" items="${disciplineList}"  multiple="true"/>
-                </div>
-                <div class="form-groups" style="padding:15px 0px">
-                    <button type="submit" class="btn btn-success">${nameButton}</button>
-                </div>
-            </form:form>
+                        <div class="row">
+                            <div class="form-groups col-sm-5">
+                                <form:label path="week">Длительность (в неделях):</form:label>
+                                <form:input path="week" class="form-control"
+                                            placeholder="Введите количество недель:"/>
+                            </div>
+                            <div class="col-sm-6" style="margin-top: 30px">
+                                <form:errors path="week" cssClass="text-danger"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-groups col-sm-5">
+                                <form:label path="disciplineList">Дисциплины в семестре</form:label>
+                                <form:select path="disciplineList" class="form-control" items="${disciplineList}"
+                                             multiple="true"/>
+                                <button type="submit" class="btn btn-success" style="margin-top: 20px">Создать</button>
+                            </div>
+                            <div class="col-sm-6" style="margin-top: 30px">
+                                <form:errors path="disciplineList" cssClass="text-danger"/>
+                            </div>
+                        </div>
+                    </form:form>
+                </c:when>
+                <c:otherwise>
+                    <form:form method="post" action="${requestScope['javax.servlet.forward.request_uri']}" commandName="curriculum" role="form">
+                        <h4 class="text-muted">Для модификации семестра отредактируйте данные и нажмите кнопку
+                            "Применить"</h4>
+                                                  <div class="row">
+                            <div class="form-groups col-sm-5">
+                                <form:label path="week">Длительность (в неделях):</form:label>
+                                <form:input path="week" class="form-control"
+                                            placeholder="Введите количество недель:"
+                                            value="${modifyingCurriculum.week}"/>
+                            </div>
+                            <div class="col-sm-6" style="margin-top: 30px">
+                                <form:errors path="week" cssClass="text-danger"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-groups col-sm-5">
+                                <form:label path="disciplineList">Дисциплины в семестре</form:label>
+                                <form:select path="disciplineList" class="form-control" items="${disciplineList}"
+                                             multiple="true"/>
+                                <button type="submit" class="btn btn-success" style="margin-top: 20px">Применить
+                                </button>
+                            </div>
+                            <div class="col-sm-6" style="margin-top: 30px">
+                                <form:errors path="disciplineList" cssClass="text-danger"/>
+                            </div>
+                        </div>
+                    </form:form>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>

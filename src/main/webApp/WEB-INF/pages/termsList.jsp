@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <form:form method="post" action="/term/termsList/admin/handlerTermsList" role="form" modelAttribute="term">
+        <form:form method="post" action="/term/termsList/admin/handlerTermsList" role="form" modelAttribute="curriculum">
         <div class="col-sm-10">
             <div class="form-horizontal col-sm-10">
                 <label for="curriculum1" class="col-sm-3 control-label ">Выберите семестр:</label>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="col-sm-2">
                     <form:select id="curriculum1" name="curriculum" class="form-control" path="nameTerm">
-                        <c:forEach items="${curriculum}" var="term">
+                        <c:forEach items="${terms}" var="term">
                             <option>${term.numberTerm}</option>
                         </c:forEach>
                     </form:select>
@@ -39,7 +39,7 @@
             <div style="padding: 60px 0px">
                 <div class="col-sm-6" style="padding: 0px 45px">
                     <c:if test="${!empty listDiscipline}">
-                        <h4 class="text-muted " style="padding: 5px 0px">Длительность семестра ${weekTerm.week}
+                        <h4 class="text-muted " style="padding: 5px 0px">Длительность ${nameTerm} семестра ${weekTerm.week}
                             недель</h4>
                         <h4 class="text-muted" style="padding: 5px 0px">Список дисциплин семестра </h4>
                         <table class="table table-bordered table-striped table-hover table-condensed">
