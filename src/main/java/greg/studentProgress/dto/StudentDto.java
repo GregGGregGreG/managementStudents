@@ -3,20 +3,29 @@ package greg.studentProgress.dto;
 
 import greg.studentProgress.persistence.domain.Student;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 
 public class StudentDto implements Serializable {
     private Long id;
     @NotEmpty(message = "Фамилия не может быть пустой.")
     @Size(min = 3, max = 45, message = "Минимальная длина 3 символа максимальная 45")
+    @Pattern(regexp = "^[А-Яа-яЁё]+$",message = "Имя на русском")
     private String lastName;
     @NotEmpty(message = "Имя не может быть пустым.")
-    @Size(min = 3, max = 45, message = "Минимальная длина 3 символа максимальная 45")
+    @Size(min = 2, max = 45, message = "Минимальная длина 3 символа максимальная 45")
+    @Pattern(regexp = "^[А-Яа-яЁё]+$",message = "Фамилия на русском")
     private String firstName;
-    @NotEmpty(message = "Год поступления не может быть пустым.")
-    private String weekOfEntry;
+    @NotNull(message = "Год поступления не может быть пустым.")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Past
+    private Date weekOfEntry;
     @NotEmpty(message = "Группа не может быть пустой.")
     private String groups;
 
@@ -27,7 +36,7 @@ public class StudentDto implements Serializable {
         this.id = student.getId();
         this.lastName = student.getLastName();
         this.firstName = student.getFirstName();
-        this.weekOfEntry = String.valueOf(student.getWeekOfEntry());
+        this.weekOfEntry = student.getWeekOfEntry();
         this.groups = student.getGroups().getName();
     }
 
@@ -47,11 +56,11 @@ public class StudentDto implements Serializable {
         this.firstName = firstName;
     }
 
-    public String getWeekOfEntry() {
+    public Date getWeekOfEntry() {
         return weekOfEntry;
     }
 
-    public void setWeekOfEntry(String weekOfEntry) {
+    public void setWeekOfEntry(Date weekOfEntry) {
         this.weekOfEntry = weekOfEntry;
     }
 

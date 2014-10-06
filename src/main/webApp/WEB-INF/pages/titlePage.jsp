@@ -19,7 +19,7 @@
             <a href="<c:url value="/student/studentsList"/>">Студенты</a>
         </div>
         <div class="col-sm-4">
-            <a href="<c:url value="/discipline/disciplineList"/>">Дисциплины</a>
+            <a href="<c:url value="/disciplines/"/>">Дисциплины</a>
         </div>
         <div class="col-sm-4">
             <a href="<c:url value="/term/termsList"/>">Семестры</a>

@@ -15,35 +15,33 @@
     <div class="row">
         <jsp:include page="navBar.jsp"/>
         <div class="col-sm-8" style="padding: 0px 45px 0px">
-            <form:form action="/student/handlerListsStudents" method="post" role="form" >
+            <form:form action="/student/studentsList" method="post" role="form">
                 <div>
                     <div class="row">
                         <div class="col-sm-7">
-                            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
-                                    value="studentListProgress">
-                                Просмотреть успеваемость выбранных студентов
+                            <button class="btn btn-mini btn-block btn-primary" type="submit"
+                                    name="studentListProgress">
+                            Просмотреть успеваемость выбранных студентов
                             </button>
                             <sec:authorize access="isAuthenticated()">
-                            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
-                                    value="modifying">
-                                Модифцировать выбраннго студента
+                            <button class="btn btn-mini btn-block btn-primary" type="submit" name="modifying">
+                            Модифцировать выбраннго студента
                             </button>
                         </div>
                         <div class="col-sm-5">
-                            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
-                                    value="creating">
-                                Создать студента
+                            <button formaction="/student/admin/studentCreating" formmethod="get" type="submit"
+                                    class="btn btn-mini btn-block btn-primary" >
+                            Создать студента
                             </button>
-                            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
-                                    value="remove">
-                                Удалить выбарнных студентов
+                            <button  class="btn btn-mini btn-block btn-primary" type="submit" name="remove">
+                            Удалить выбарнных студентов
                             </button>
                         </div>
                         </sec:authorize>
                     </div>
                 </div>
                 <div>
-                    <c:if test="${!empty students}">
+                    <c:if test="${!empty studentsList}">
                         <h4 class="text-muted" style="margin-top: 10px">Список студентов</h4>
                         <table class="table table-bordered table-striped table-hover table-condensed">
                             <thead>
@@ -52,17 +50,17 @@
                                 <th class="text-info">Фамилия</th>
                                 <th class="text-info">Имя</th>
                                 <th class="text-info">Группа</th>
-                                <th class="text-info">Дата поступления</th>
+                                <th  class="text-info" >Дата поступления</th>
                             </tr>
                             </thead>
                     <tbody>
-                    <c:forEach items="${students}" var="student">
-                        <tr>
-                            <td><input type="checkbox" name="id" value="${student.id}"/></td>
+                    <c:forEach items="${studentsList}" var="student">
+                    <tr>
+                            <td><input type="checkbox" name="studentsId" value="${student.id}"/></td>
                             <td>${student.lastName}</td>
                             <td>${student.firstName}</td>
                             <td>${student.groups.name}</td>
-                            <td>${student.weekOfEntry}</td>
+                            <td >${student.weekOfEntry}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

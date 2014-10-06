@@ -19,7 +19,7 @@
                 <form:form method="get"
                            action="${requestScope['javax.servlet.forward.request_uri']}"
                            role="form"
-                           modelAttribute="StudentProgressListDto">
+                           modelAttribute="studentProgressListDto">
                     <c:forEach items="${StudentProgressListDto.progressDtoList}" var="StudentProgress">
 
                         <h4 class="text-muted" style="margin-top: 10px">Отображена успеваемость для следующего
@@ -72,7 +72,7 @@
                             <div class="col-sm-6" style="margin-top: 25px">
                                 <div>
                                     <div style="display: none">
-                                        <input name="termsIds"
+                                        <input name="termsId"
                                                value="${StudentProgress.termId}"/>
                                     </div>
                                     <div class=" form-horizontal">

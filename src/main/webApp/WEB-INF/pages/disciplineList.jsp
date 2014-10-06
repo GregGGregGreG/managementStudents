@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <form:form action="admin/handlerDisciplineList" method="post" role="form">
+        <form:form action="/disciplines/admin/" method="post" role="form">
             <div class="col-sm-6" style="padding: 0px 45px">
             <c:if test="${!empty disciplines}">
                 <h4 class="text-muted" style="padding: 0px 0px 10px 0px">Cписок дисциплин</h4>
@@ -42,15 +42,16 @@
         </div>
         <div class="col-sm-4" style="margin: 45px 0px;" >
             <sec:authorize access="isAuthenticated()">
-            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="creating">
-                Создать дисциплину
-            </button>
-            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="modifying">
+                <button class="btn btn-mini btn-block btn-primary" type="submit"
+                        formaction="/disciplines/admin/creating" formmethod="get">
+                    Создать дисциплину
+                </button>
+                <button class="btn btn-mini btn-block btn-primary" type="submit" name="modifying">
                 Модифицировать выбранную дисциплину
             </button>
-            <button class="btn btn-mini btn-block btn-primary" type="submit" name="action" value="remove">Удалить
-                выбранную дисциплину
-            </button>
+                <button class="btn btn-mini btn-block btn-primary" type="submit" name="delete">Удалить
+                    выбранную дисциплину
+                </button>
             </sec:authorize>
         </div>
         </form:form>

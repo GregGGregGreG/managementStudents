@@ -116,6 +116,8 @@ public class TermController {
         termModifying.setWeek(week);
         termService.add(termModifying);
 
+
+
         List<Curriculum> curriculumList = curriculumService.findByTerm(nameTerm);
         ArrayList<String> curriculumListNameDiscipline = new ArrayList<>();
         int curriculumListSize = curriculumList.size();
