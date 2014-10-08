@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row">
         <jsp:include page="navBar.jsp"/>
-        <form:form method="post" action="/term/termsList/admin/handlerTermsList" role="form" modelAttribute="curriculum">
+        <form:form method="post" action="/curriculums/" role="form" modelAttribute="curriculum">
         <div class="col-sm-10">
             <div class="form-horizontal col-sm-10">
                 <label for="curriculum1" class="col-sm-3 control-label ">Выберите семестр:</label>
@@ -28,10 +28,10 @@
                         </c:forEach>
                     </form:select>
                         </div>
-                <button class="btn btn-success" type="submit" name="action" value="selectTerm">Выбрать</button>
+                <button class="btn btn-success" type="submit" name="selectTerm">Выбрать</button>
                 <sec:authorize access="isAuthenticated()">
-                <button class="btn btn-mini  btn-primary" type="submit" name="action"
-                        value="creating">
+                    <button formaction="/curriculums/admin/creating" formmethod="get" type="submit"
+                            class="btn btn-mini  btn-primary">
                     Создать семестр
                 </button>
                 </sec:authorize>
@@ -61,14 +61,12 @@
                 <sec:authorize access="isAuthenticated()">
                 <div class="col-sm-4" style="margin:85px  0px;">
                     <c:if test="${!empty listDiscipline}">
-                        <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
-                                value="modifying">
-                            Модифцировать текущий семестр
+                        <button formaction="/curriculums/admin/modifying/${termId}" formmethod="get"
+                                class="btn btn-mini btn-block btn-primary" type="submit">
+                        Модифцировать текущий семестр
                         </button>
-                        <button class="btn btn-mini btn-block btn-primary" type="submit" name="action"
-                                value="remove">
-                            Удалить
-                            текущий семестр
+                        <button class="btn btn-mini btn-block btn-primary" type="submit" name="delete">
+                            Удалить текущий семестр
                         </button>
                     </c:if>
                 </div>

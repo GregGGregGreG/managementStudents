@@ -1,6 +1,7 @@
 package greg.studentProgress.dto;
 
 import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
@@ -10,6 +11,7 @@ public class CurriculumDto implements Serializable {
     private String nameTerm;
     @NotNull(message = "Количество недель не должно быть пустым")
     @DecimalMax(value = "25",message = "Максимум 25 недель")
+    @DecimalMin(value = "3" ,message = "Минимум 3 недели")
     private Integer week;
     @NotNull(message = "Дисциплины не выбранны")
     private List<String> disciplineList;

@@ -64,7 +64,6 @@ public class DisciplineController {
         return "disciplineCreating";
     }
 
-
     @RequestMapping(value = "/admin/creating/{disciplineId}", method = RequestMethod.POST)
     public String disciplineModifyingSave(@PathVariable("disciplineId") Long disciplineId,
                                           @Valid @ModelAttribute("discipline") DisciplineDto dto, BindingResult result) {

@@ -20,7 +20,7 @@
                            action="${requestScope['javax.servlet.forward.request_uri']}"
                            role="form"
                            modelAttribute="studentProgressListDto">
-                    <c:forEach items="${StudentProgressListDto.progressDtoList}" var="StudentProgress">
+                    <c:forEach items="${studentProgressListDto.progressDtoList}" var="StudentProgress">
 
                         <h4 class="text-muted" style="margin-top: 10px">Отображена успеваемость для следующего
                             студента:</h4>

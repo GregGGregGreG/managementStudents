@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/student")
+@RequestMapping(value = "/students")
 public class StudentController {
     @Autowired
     private StudentService studentService;
@@ -34,33 +34,33 @@ public class StudentController {
     @Autowired
     private TermService termService;
 
-    @RequestMapping(value = "/studentsList", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String studentList(ModelMap model) {
         model.addAttribute("studentsList", studentService.findAll());
         return "studentsList";
     }
 
-    @RequestMapping(value = "/studentsList", method = RequestMethod.POST, params = "studentListProgress")
+    @RequestMapping(value = "/", method = RequestMethod.POST, params = "studentListProgress")
     public String studentListProgress(@RequestParam(value = "studentsId", required = false) Long[] studentsId,
                                       RedirectAttributes redirectAttrs) {
         redirectAttrs.addAttribute("studentsId", studentsId);
-        return "redirect:/student/studentProgress/{studentsId}";
+        return "redirect:/students/progress/{studentsId}";
     }
 
-    @RequestMapping(value = "/studentsList", method = RequestMethod.POST, params = "remove")
+    @RequestMapping(value = "/", method = RequestMethod.POST, params = "remove")
     public String removeStudent(@RequestParam(value = "studentsId", required = false) Long[] studentsId) {
         for (Long idStudent : studentsId) {
             studentService.remove(studentService.findById(idStudent));
         }
-        return "redirect:/student/studentsList";
+        return "redirect:/students/";
     }
 
-    @RequestMapping(value = "/studentsList", method = RequestMethod.POST, params = "modifying")
+    @RequestMapping(value = "/", method = RequestMethod.POST, params = "modifying")
     public String modifyingStudent(@RequestParam(value = "studentsId", required = false) Long studentsId) {
-        return "redirect:/student/admin/studentModifying/" + studentsId;
+        return "redirect:/students/admin/modifying/" + studentsId;
     }
 
-    @RequestMapping(value = "/studentProgress/{studentsId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/progress/{studentsId}", method = RequestMethod.GET)
     public String studentProgress(ModelMap model,
                                   @PathVariable("studentsId") Long[] studentsId,
                                   @ModelAttribute StudentProgressListDto dto,
@@ -101,14 +101,14 @@ public class StudentController {
         return "studentProgress";
     }
 
-    @RequestMapping(value = "/admin/studentCreating", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/creating", method = RequestMethod.GET)
     public String studentCreating(ModelMap model) {
         model.addAttribute("student", new StudentDto());
         model.addAttribute("groupsList", groupsService.findAll());
         return "studentCreating";
     }
 
-    @RequestMapping(value = "/admin/studentCreating", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/creating", method = RequestMethod.POST)
     public String studentSave(ModelMap model, @Valid
     @ModelAttribute("student") StudentDto dto, BindingResult result) {
         if (result.hasErrors()) {
@@ -120,17 +120,17 @@ public class StudentController {
         Date weekOfEntry = dto.getWeekOfEntry();
         Groups group = groupsService.findByName(dto.getGroups());
         studentService.add(new Student(firstName, lastName, weekOfEntry, group));
-        return "redirect:/student/studentsList";
+        return "redirect:/students/";
     }
 
-    @RequestMapping(value = "/admin/studentModifying/{studentId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/modifying/{studentId}", method = RequestMethod.GET)
     public String studentModifying(ModelMap model, @PathVariable("studentId") Long studentId) {
         model.addAttribute("student", studentService.findById(studentId));
         model.addAttribute("groupsList", groupsService.findAll());
         return "studentCreating";
     }
 
-    @RequestMapping(value = "/admin/studentModifying/{studentId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/modifying/{studentId}", method = RequestMethod.POST)
     public String studentModifyingSave(ModelMap model, @PathVariable("studentId") Long studentId,
                                        @Valid @ModelAttribute("student") StudentDto dto, BindingResult result) {
         if (result.hasErrors()) {
@@ -144,6 +144,6 @@ public class StudentController {
         Groups group = groupsService.findByName(dto.getGroups());
         student.setAllParam(firstName, lastName, weekOfEntry, group);
         studentService.add(student);
-        return "redirect:/student/studentsList";
+        return "redirect:/students/";
     }
 }

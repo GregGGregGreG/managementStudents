@@ -22,7 +22,7 @@
         <div class="col-sm-8 " style="padding: 0px 45px">
             <c:choose>
                 <c:when test="${empty studentId}">
-                    <form:form method="post" action="/student/admin/studentCreating" commandName="student" role="form">
+                    <form:form method="post" action="/students/admin/creating" commandName="student" role="form">
 
                         <h4 class="text-muted">Для создания студента заполните все поля и нажмите кнопку "Cоздать"</h4>
 

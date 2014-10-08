@@ -15,8 +15,8 @@
         <jsp:include page="navBar.jsp"/>
         <div class="col-sm-9" style="padding: 0px 45px">
             <c:choose>
-                <c:when test="${empty modifyingCurriculum.id}">
-                    <form:form method="post" action="/term/admin/termCreating" commandName="curriculum" role="form">
+                <c:when test="${empty termId}">
+                    <form:form method="post" action="/curriculums/admin/creating" commandName="curriculum" role="form">
                         <h4 class="text-muted">Для создания семестра заполните следующие данные и нажмите кнопку
                             "Cоздать"</h4>
 

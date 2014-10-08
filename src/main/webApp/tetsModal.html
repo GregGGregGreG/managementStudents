@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <meta charset="UTF-8">
+    <title></title>
+    <!--<link href="WEB-INF/pages/css/bootstrap.css" rel="stylesheet">-->
+    <!--<link href="WEB-INF/pages/css/bootstrap-theme.min.css" rel="stylesheet">-->
+    <!--<link href="WEB-INF/pages/jquery/jquery-ui.css" rel="stylesheet">-->
+
+    <!--<script src="WEB-INF/pages/jquery/jquery-1.9.1.js"></script>-->
+    <!--<script src="WEB-INF/pages/jquery/jquery-1.11.1.min.js"></script>-->
+    <!--<script src="WEB-INF/pages/js/bootstrap.min.js"></script>-->
+    <!--<script src="WEB-INF/pages/jquery/jquery-ui.js"></script>-->
+
+
+    <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>-->
+    <!--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css"/>-->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+</head>
+<body>
+<form>
+    <p>
+        <input type="checkbox" name="newsletter" value="Hourly" checked="checked">
+
+        <input type="checkbox" name="newsletter" value="Daily">
+        <input type="checkbox" name="newsletter" value="Weekly">
+
+        <input type="checkbox" name="newsletter" value="Monthly" checked>
+        <input type="checkbox" name="newsletter" value="Yearly">
+    </p>
+
+</form>
+<button id="test" onclick="countChecked()">Выбрать</button>
+<div></div>
+
+<script>
+    var countChecked = function () {
+        var n = $('input:checked').length;
+        $("div").text(n + 'выбрано!');
+        if (n == 0) {
+            $('div').text('Жопа!');
+        }
+    };
+</script>
+<script>
+    $(document).ready(function(){
+
+        $("form").submit(function() {
+            if ($("input:first").val() == "correct") {
+                $("span").text("Validated...").show();
+                return true;
+            }
+            $("span").text("Not valid!").show().fadeOut(1000);
+            return false;
+        });
+
+    });
+</script>
+<style>
+    p { margin:0; color:blue; }
+    div,p { margin-left:10px; }
+    span { color:red; }
+</style>
+
+
+<p>Type 'correct' to validate.</p>
+<form action="javascript:alert('success!');">
+
+    <div>
+        <input type="text" />
+        <input type="submit" />
+    </div>
+
+</form>
+<span></span>
+
+</body>
+</html>

@@ -16,13 +16,13 @@
 <div class="container">
     <div class="row text-center">
         <div class="col-sm-4">
-            <a href="<c:url value="/student/studentsList"/>">Студенты</a>
+            <a href="<c:url value="/students/"/>">Студенты</a>
         </div>
         <div class="col-sm-4">
             <a href="<c:url value="/disciplines/"/>">Дисциплины</a>
         </div>
         <div class="col-sm-4">
-            <a href="<c:url value="/term/termsList"/>">Семестры</a>
+            <a href="<c:url value="/curriculums/"/>">Семестры</a>
         </div>
     </div>
 </div>

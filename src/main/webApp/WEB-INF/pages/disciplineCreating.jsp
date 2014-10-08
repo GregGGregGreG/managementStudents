@@ -35,13 +35,12 @@
                         </form:form>
                     </c:when>
                     <c:otherwise>
-                        <form:form method="put" action="${requestScope['javax.servlet.forward.request_uri']}"
+                        <form:form method="POST" action="${requestScope['javax.servlet.forward.request_uri']}"
                                    commandName="discipline" role="form">
+                            <h4 class="text-muted">Для того чтобы модифицировать дисциплину введите новое значение поля
+                                и нажмите кнопку "Применить"</h4>
 
-                        <h4 class="text-muted">Для того чтобы модифицировать дисциплину введите новое значение поля и
-                            нажмите кнопку "Применить"</h4>
-
-                        <div class="row">
+                            <div class="row">
                             <div class="form-groups col-sm-5">
                                 <form:label path="name">Дисциплина:</form:label>
                                 <form:input path="name" class="form-control" placeholder="Введите название дисциплины::"
