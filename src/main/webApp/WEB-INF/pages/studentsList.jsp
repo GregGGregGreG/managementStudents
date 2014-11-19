@@ -11,18 +11,21 @@
 
     <%--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>--%>
     <%--<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css"/>--%>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css"/>
 
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
     <script>
         var countChecked = function () {
             var n = $('input:checked').length;
-            if (n == 0) {
-                $(alert("!"));
+            if (n > 0) {
+                $('#myModal').modal('show')
+            } else {
+                $('#example').popover(options)
             }
         };
     </script>
@@ -51,11 +54,10 @@
                                     class="btn btn-mini btn-block btn-primary" >
                             Создать студента
                             </button>
-                            <button class="btn btn-mini btn-block btn-primary" data-toggle="modal"
-                                    data-target=".bs-example-modal-sm" onclick="countChecked()">Удалить выбарнных
-                                студентов
+                            <button class="btn btn-mini btn-block btn-primary" onclick="countChecked()" type="button">
+                                Удалить выбарнных студентов
                             </button>
-                            <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+                            <div id="myModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
                                  aria-labelledby="mySmallModalLabel"
                                  aria-hidden="true">
                                 <div class="modal-dialog modal-sm modal-content">

@@ -49,28 +49,4 @@ public class CurriculumDto implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CurriculumDto that = (CurriculumDto) o;
-
-        if (disciplineList != null ? !disciplineList.equals(that.disciplineList) : that.disciplineList != null)
-            return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        if (nameTerm != null ? !nameTerm.equals(that.nameTerm) : that.nameTerm != null) return false;
-        if (week != null ? !week.equals(that.week) : that.week != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (nameTerm != null ? nameTerm.hashCode() : 0);
-        result = 31 * result + (week != null ? week.hashCode() : 0);
-        result = 31 * result + (disciplineList != null ? disciplineList.hashCode() : 0);
-        return result;
-    }
 }

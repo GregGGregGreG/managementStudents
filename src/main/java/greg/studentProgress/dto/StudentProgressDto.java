@@ -65,31 +65,4 @@ public class StudentProgressDto implements Serializable {
         this.studentProgressList = studentProgressList;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        StudentProgressDto that = (StudentProgressDto) o;
-
-        if (Double.compare(that.averageRating, averageRating) != 0) return false;
-        if (student != null ? !student.equals(that.student) : that.student != null) return false;
-        if (studentProgressList != null ? !studentProgressList.equals(that.studentProgressList) : that.studentProgressList != null)
-            return false;
-        if (termId != null ? !termId.equals(that.termId) : that.termId != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result;
-        long temp;
-        result = student != null ? student.hashCode() : 0;
-        result = 31 * result + (termId != null ? termId.hashCode() : 0);
-        temp = Double.doubleToLongBits(averageRating);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (studentProgressList != null ? studentProgressList.hashCode() : 0);
-        return result;
-    }
 }
